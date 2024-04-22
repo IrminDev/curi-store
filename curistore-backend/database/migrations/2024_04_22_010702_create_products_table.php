@@ -15,8 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('description');
-            $table->string('image');
+            $table->string('thumbnail');
             $table->integer('price');
+            $table->float('discount');
+            $table->float('rating');
             $table->foreignId('brand_id')->constrained();
             $table->foreignId('category_id')->constrained();
             $table->integer('stock');

@@ -1,10 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\ProductController;
+use Illuminate\Http\Request;
 
-Route::get('/user', function () {
-    return view('welcome');
-});
+Route::get('/user', [UserController::class, 'index']);
 
 Route::post('/user', function () {
     return response()->json(['status' => 'ok']);
