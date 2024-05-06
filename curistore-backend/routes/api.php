@@ -27,9 +27,7 @@ Route::post('/product', function () {
     return response()->json(['status' => 'ok']);
 });
 
-Route::post('/products', function () {
-    return response()->json(['status' => 'ok']);
-});
+Route::post('/products', [ProductController::class, 'multipleStore']);
 
 Route::put('/products/{id}', function ($id) {
     return response()->json(['status' => 'ok']);
