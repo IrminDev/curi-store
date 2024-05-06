@@ -15,9 +15,7 @@ Route::get('/user/{id}', function ($id) {
     return response()->json(['id' => $id]);
 });
 
-Route::get('/products', function () {
-    return response()->json(['products' => ['product1', 'product2']]);
-});
+Route::get('/products', [ProductController::class, 'index']);
 
 Route::get('/products/{id}', function ($id) {
     return response()->json(['id' => $id]);
