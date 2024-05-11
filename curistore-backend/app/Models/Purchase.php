@@ -10,17 +10,8 @@ class Purchase extends Model
     use HasFactory;
 
     protected $fillable = [
-        'product_id',
-        'quantity',
-        'total',
-        'status',
-        'payment_method',
-        'payment_status',
-        'address',
-        'phone',
-        'email',
-        'name',
         'user_id',
+        'address_id'
     ];
 
     public function user()
@@ -30,5 +21,10 @@ class Purchase extends Model
 
     public function order(){
         return $this->hasMany(Order::class);
+    }
+
+    public function address()
+    {
+        return $this->belongsTo(Address::class);
     }
 }
