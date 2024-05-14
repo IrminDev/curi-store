@@ -1,12 +1,12 @@
 import React from 'react'
 import Header from '../components/Header'
 import HeaderLink from '../components/HeaderLink'
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { FaHome } from "react-icons/fa";
 import { FaTags } from "react-icons/fa";
 import { FaUsers } from "react-icons/fa";
 import { FaUser } from "react-icons/fa";
 import { FaShoppingCart } from "react-icons/fa";
+import { Outlet } from 'react-router-dom';
 
 const AdminHome = () => {
     return (
@@ -17,12 +17,8 @@ const AdminHome = () => {
                 <HeaderLink url={'/user-form'} text={'Usuarios'}><FaUsers/></HeaderLink>
                 <HeaderLink url={'/profile'} text={'Perfil'}><FaUser/></HeaderLink>
             </Header>
-            <Routes>
-                <Route path="/" element={<p>Inicio</p>} />
-                <Route path="/product-form" element={<p>Productos</p>} />
-                <Route path="/user-form" element={<p>Usuarios</p>} />
-                <Route path="/profile" element={<p>Perfil</p>} />
-            </Routes>
+
+            <Outlet />
         </div>
     )
 }
@@ -36,12 +32,8 @@ const UserHome = () => {
                 <HeaderLink url={'./orders'} text={'Compras'}><FaTags/></HeaderLink>
                 <HeaderLink url={'./profile'} text={'Perfil'}><FaUser/></HeaderLink>
             </Header>
-            <Routes>
-                <Route path="./" element={<p>Inicio</p>} />
-                <Route path="./cart" element={<p>Carrito</p>} />
-                <Route path="./orders" element={<p>Compras</p>} />
-                <Route path="./profile" element={<p>Perfil</p>} />
-            </Routes>
+
+            <Outlet />
         </div>
     )
 }

@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom'
 const HeaderLink = ({url, text, children}) => {
     return (
         <li className="">
-            <Link to={url} className="flex transition ease-linear flex-col items-center gap-y-1 font-[600] text-slate-200 md:hover:text-blue-300 ">
+            <Link to={url} className="flex transition ease-linear flex-col items-center gap-y-1 font-[600] text-primary-lighter md:hover:text-primary-light ">
                   <div className=' md:hidden'>
                      {children}
                   </div>
