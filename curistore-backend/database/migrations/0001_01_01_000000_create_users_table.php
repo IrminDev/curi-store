@@ -17,7 +17,19 @@ return new class extends Migration
             $table->string('last_name');
             $table->string('email')->unique();
             $table->string('password');
+            $table->integer('role_id')->default(1);
             $table->timestamps();
+        });
+
+        Schema::create('sessions', function($table)
+        {
+            $table->string('id')->unique();
+            $table->integer('user_id')->nullable();
+            $table->string('ip_address', 45)->nullable();
+            $table->text('user_agent')->nullable();
+            $table->text('device')->nullable();
+            $table->text('payload');
+            $table->integer('last_activity');
         });
     }
 

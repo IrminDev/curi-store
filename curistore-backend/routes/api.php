@@ -6,26 +6,25 @@ use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\AddressController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\PurchaseController;
+use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 
 // Users routes
-Route::get('/user', [UserController::class, 'index']);
-
-Route::get('/user/login', [UserController::class, 'login']);
-
-Route::post('/user', [UserController::class, 'store']);
-
-Route::get('/user/{id}', [UserController::class, 'show']);
-
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'auth'
+], function ($router) {
+    Route::post('/register', [AuthController::class, 'register'])->name('register');
+    Route::post('/login', [AuthController::class, 'login'])->name('login');
+    Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:api')->name('logout');
+    Route::post('/refresh', [AuthController::class, 'refresh'])->middleware('auth:api')->name('refresh');
+    Route::post('/me', [AuthController::class, 'me'])->middleware('auth:api')->name('me');
+});
 
 // Products routes
 Route::get('/products', [ProductController::class, 'index']);
 
 Route::get('/products/{id}', [ProductController::class, 'show']);
-
-Route::post('/product', [ProductController::class, 'store']);
-
-Route::post('/products', [ProductController::class, 'multipleStore']);
 
 
 // Address routes
@@ -50,3 +49,13 @@ Route::get('/purchases/{user_id}', [PurchaseController::class, 'getPurchasesByUs
 Route::post('/purchase', [PurchaseController::class, 'storeMultipleOrders']);
 
 Route::get('/purchase/{id}', [PurchaseController::class, 'show']);
+
+// Protected routes
+Route::group([
+    'middleware' => 'auth:api'
+], function ($router) {
+
+    Route::post('/product',  [ProductController::class, 'store'])->middleware('auth:api')->name('store');
+
+    Route::post('/products', [ProductController::class, 'multipleStore'])->middleware('auth:api')->name('multipleStore');
+});
