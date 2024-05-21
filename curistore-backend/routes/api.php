@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\BrandController;
+use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\AddressController;
 use App\Http\Controllers\Api\OrderController;
@@ -59,3 +61,12 @@ Route::group([
 
     Route::post('/products', [ProductController::class, 'multipleStore'])->middleware('auth:api')->name('multipleStore');
 });
+
+// Brand routes
+
+Route::get('/brands', [BrandController::class, 'index']);
+
+// Categories routes
+
+Route::get('/categories', [CategoryController::class, 'index']);
+

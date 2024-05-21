@@ -19,8 +19,8 @@ const AdminHome = () => {
             navigate('/login'); 
         }
         
-        authService.me({token}).then(response => {
-            if(response.data.role_id == 2){
+        authService.me(token).then(response => {
+            if(response.data.role_id === 1){
                 navigate('/user');
             }
         }).catch(error => {
@@ -58,9 +58,9 @@ const UserHome = () => {
             navigate('/login'); 
         }
         
-        authService.me({token}).then(response => {
-            if(response.data.role_id == 1){
-                navigate('/admin');
+        authService.me(token).then(response => {
+            if(response.data.role_id === 2){
+                navigate('/user');
             }
         }).catch(error => {
             console.log(error);

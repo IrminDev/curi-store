@@ -10,7 +10,7 @@ const login = async ({email, password}) =>{
     return response;
 }
 
-const me = async ({token}) => {
+const me = async (token) => {
     const response = await axios.post(`${baseUrl}me`, null, {
         headers: {
             Authorization: `Bearer ${token}`
@@ -20,4 +20,10 @@ const me = async ({token}) => {
     return response;
 }
 
-export default {login, me}
+const register = async (user) => {
+    const response = await axios.post(`${baseUrl}register`, user);
+
+    return response;
+}
+
+export default {login, me, register}

@@ -34,8 +34,11 @@ class AuthController extends Controller
             $user->email = request()->email;
             $user->password = bcrypt(request()->password);
             $user->save();
-      
-            return response()->json($user, 201);
+
+            $token = auth()->guard('api')->login($user);
+
+            return $this->respondWithToken($token);
+            
         } catch (\Throwable $th) {
             return response()->json(['message' => 'Error creating user'], 500);
         }
