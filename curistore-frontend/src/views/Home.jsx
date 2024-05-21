@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Header from '../components/Header'
 import HeaderLink from '../components/HeaderLink'
 import { FaHome } from "react-icons/fa";
@@ -6,10 +6,30 @@ import { FaTags } from "react-icons/fa";
 import { FaUsers } from "react-icons/fa";
 import { FaUser } from "react-icons/fa";
 import { FaShoppingCart } from "react-icons/fa";
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import Index from './user/Index';
+import authService from '../services/auth';
 
 const AdminHome = () => {
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if(!token){
+            navigate('/login'); 
+        }
+        
+        authService.me({token}).then(response => {
+            if(response.data.role_id == 2){
+                navigate('/user');
+            }
+        }).catch(error => {
+            console.log(error);
+            localStorage.removeItem('token');
+            navigate('/login');
+        })
+    }, [])
+
     return (
         <div>
             <Header>
@@ -30,6 +50,25 @@ const AdminHome = () => {
 }
 
 const UserHome = () => {
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if(!token){
+            navigate('/login'); 
+        }
+        
+        authService.me({token}).then(response => {
+            if(response.data.role_id == 1){
+                navigate('/admin');
+            }
+        }).catch(error => {
+            console.log(error);
+            localStorage.removeItem('token');
+            navigate('/login');
+        })
+    }, [])
+
     return (
         <div>
             <Header>

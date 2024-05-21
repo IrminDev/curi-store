@@ -4,16 +4,23 @@ module.exports = {
     "./src/**/*.{js,jsx,ts,tsx}",
   ],
   theme: {
-    extend: {},
-    colors: {
-      "primary-dark": '#003C43',
-      "primary": '#135D66',
-      "primary-light": '#77B0AA',
-      "primary-lighter": '#E3FEF7',
-      "secondary-darker": '#222831',
-      "secondary-dark": '#31363F',
+    extend: {
+      backgroundImage: {
+        'main': "url('/src/assets/bg-index.jpg')",
+        'login': "url('/src/assets/bg-login.jpg')",
+        'signup': "url('/src/assets/bg-signup.jpg')",
+      },
+      colors: {
+        "primary-dark": '#003C43',
+        "primary": '#135D66',
+        "primary-light": '#77B0AA',
+        "primary-lighter": '#E3FEF7',
+        "secondary-darker": '#222831',
+        "secondary-dark": '#31363F',
+        
+      }
+    },
 
-    }
   },
   plugins: [],
 }
