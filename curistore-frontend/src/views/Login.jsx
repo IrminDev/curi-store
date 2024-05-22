@@ -31,17 +31,23 @@ const Login = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        try {
-            const response = await loginService.login(user);
+        loginService.login(user).then(response => {
             if(response.status === 200){
                 localStorage.setItem('token', response.data.access_token);
-                navigate('/user');
+                loginService.me(response.data.access_token).then(response => {
+                    if(response.data.role_id === 1){
+                        navigate('/user');
+                    } else {
+                        navigate('/admin');
+                    }
+                })
             } else {
-                console.log('Login failed')
+                console.log('Login failed');
+                console.log(response);
             }
-        } catch (error) {
-            console.log(error)
-        }
+        }).catch(error => {
+            console.log(error);
+        })
     };
     
     

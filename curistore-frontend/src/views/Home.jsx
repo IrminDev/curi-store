@@ -9,6 +9,7 @@ import { FaShoppingCart } from "react-icons/fa";
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import Index from './user/Index';
 import authService from '../services/auth';
+import Stats from './admin/Stats';
 
 const AdminHome = () => {
     const navigate = useNavigate();
@@ -40,7 +41,7 @@ const AdminHome = () => {
             </Header>
 
             <Routes>
-                <Route index element={<p>Inicio</p>} />
+                <Route index element={<Stats />} />
                 <Route path="product-form" element={<p>Productos</p>} />
                 <Route path="user-form" element={<p>Usuarios</p>} />
                 <Route path="profile" element={<p>Perfil</p>} />
