@@ -9,6 +9,8 @@ module.exports = {
         'main': "url('/src/assets/bg-index.jpg')",
         'login': "url('/src/assets/bg-login.jpg')",
         'signup': "url('/src/assets/bg-signup.jpg')",
+        'products': "url('/src/assets/bg-products.jpg')",
+        'users': "url('/src/assets/bg-users.jpg')",
       },
       colors: {
         "primary-dark": '#003C43',

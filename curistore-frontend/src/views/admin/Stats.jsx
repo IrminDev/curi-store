@@ -5,7 +5,7 @@ import { BarChart } from '@mui/x-charts/BarChart';
 
 const Stats = () => {
     return (
-        <div className=' flex flex-col justify-center mt-20'>
+        <div className=' flex flex-col justify-center items-center mt-20 bg-teal-100'>
             <div className=' h-auto flex flex-row flex-wrap items-center justify-evenly w-full mt-5'>
                 <CountCard number={0} label={'Usuarios'} background={'bg-teal-800'}>
                     <FaUsers/>
@@ -20,8 +20,10 @@ const Stats = () => {
                     <FaMoneyBill/>
                 </CountCard>
             </div>
-            <div className=' flex flex-col items-center justify-center mb-20'>
-                <h2 className=' text-4xl font-bold'>Estadísticas por productos</h2>
+            <div className=' flex flex-col items-center justify-center mb-20 w-[90%]'>
+                <div className=' w-full border-b-4 border-teal-800 pb-2 mb-4'>
+                    <h2 className=' text-4xl font-bold text-teal-800'>Estadísticas por productos</h2>
+                </div>
                 <div className=' flex flex-row items-center justify-center w-[80%]'>
                     <BarChart
                     series={[
@@ -33,8 +35,10 @@ const Stats = () => {
                     />
                 </div>
             </div>
-            <div className=' flex flex-col items-center justify-center mb-20'>
-                <h2 className=' text-4xl font-bold'>Estadísticas por categorías</h2>
+            <div className=' flex flex-col items-center justify-center mb-20 w-[90%]'>
+                <div className=' w-full border-b-4 border-teal-800 pb-2 mb-4'>
+                    <h2 className=' text-4xl font-bold text-teal-800'>Estadísticas por categorías</h2>
+                </div>
                 <div className=' flex flex-row items-center justify-center w-[80%]'>
                     <BarChart
                     series={[
@@ -46,8 +50,10 @@ const Stats = () => {
                     />
                 </div>
             </div>
-            <div className=' flex flex-col items-center justify-center mb-20'>
-                <h2 className=' text-4xl font-bold'>Estadísticas por marcas</h2>
+            <div className=' flex flex-col items-center justify-center mb-20 w-[90%]'>
+                <div className=' w-full border-b-4 border-teal-800 pb-2 mb-4'>
+                    <h2 className=' text-4xl font-bold text-teal-800'>Estadísticas por marcas</h2>
+                </div>
                 <div className=' flex flex-row items-center justify-center w-[80%]'>
                     <BarChart
                     series={[

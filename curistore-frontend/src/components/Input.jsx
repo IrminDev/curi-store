@@ -11,7 +11,7 @@ const Input = ({type, handleChange, placeholder, children, required, name, value
             onChange={handleChange}
             placeholder={placeholder}
             className=' text-teal-50 w-full max-sm:placeholder:text-sm bg-transparent border-none outline-none placeholder:text-teal-50 placeholder:font-medium'  />
-            <label htmlFor={name} className=' text-white text-xl max-sm:text-base'>
+            <label htmlFor={name} className=' max-sm:hidden text-white text-xl max-sm:text-base'>
                 {children}
             </label>
         </div>

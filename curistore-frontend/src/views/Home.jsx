@@ -10,6 +10,11 @@ import { Routes, Route, useNavigate } from 'react-router-dom';
 import Index from './user/Index';
 import authService from '../services/auth';
 import Stats from './admin/Stats';
+import Products from './admin/Products';
+import Users from './admin/Users';
+import ProductForm from './admin/ProductForm';
+import UserForm from './admin/UserForm';
+import Profile from './admin/Profile';
 
 const AdminHome = () => {
     const navigate = useNavigate();
@@ -35,16 +40,18 @@ const AdminHome = () => {
         <div>
             <Header>
                 <HeaderLink url={'./'} text={'Inicio'}><FaHome/></HeaderLink>
-                <HeaderLink url={'./product-form'} text={'Productos'}><FaTags/></HeaderLink>
-                <HeaderLink url={'./user-form'} text={'Usuarios'}><FaUsers/></HeaderLink>
+                <HeaderLink url={'./products'} text={'Productos'}><FaTags/></HeaderLink>
+                <HeaderLink url={'./users'} text={'Usuarios'}><FaUsers/></HeaderLink>
                 <HeaderLink url={'./profile'} text={'Perfil'}><FaUser/></HeaderLink>
             </Header>
 
             <Routes>
                 <Route index element={<Stats />} />
-                <Route path="product-form" element={<p>Productos</p>} />
-                <Route path="user-form" element={<p>Usuarios</p>} />
-                <Route path="profile" element={<p>Perfil</p>} />
+                <Route path="products" element={<Products />} />
+                <Route path="product-form" element={<ProductForm />} />
+                <Route path="users" element={<Users />} />
+                <Route path="user-form" element={<UserForm />} />
+                <Route path="profile" element={<Profile />} />
             </Routes>
         </div>
     )
@@ -61,7 +68,7 @@ const UserHome = () => {
         
         authService.me(token).then(response => {
             if(response.data.role_id === 2){
-                navigate('/user');
+                navigate('/admin');
             }
         }).catch(error => {
             console.log(error);
