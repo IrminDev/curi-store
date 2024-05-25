@@ -15,6 +15,7 @@ import Users from './admin/Users';
 import ProductForm from './admin/ProductForm';
 import UserForm from './admin/UserForm';
 import Profile from './admin/Profile';
+import Cart from './user/Cart';
 
 const AdminHome = () => {
     const navigate = useNavigate();
@@ -67,6 +68,7 @@ const UserHome = () => {
         }
         
         authService.me(token).then(response => {
+            localStorage.setItem('role', JSON.stringify(response.data.role_id));
             if(response.data.role_id === 2){
                 navigate('/admin');
             }
@@ -88,7 +90,7 @@ const UserHome = () => {
 
             <Routes>
                 <Route index element={<Index/>} />
-                <Route path="cart" element={<p>Carrito</p>} />
+                <Route path="cart" element={<Cart />} />
                 <Route path="orders" element={<p>Compras</p>} />
                 <Route path="profile" element={<p>Perfil</p>} />
             </Routes>
