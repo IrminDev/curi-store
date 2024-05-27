@@ -26,15 +26,30 @@ const AdminHome = () => {
             navigate('/login'); 
         }
         
-        authService.me(token).then(response => {
-            if(response.data.role_id === 1){
+        const user = JSON.parse(localStorage.getItem('user'));
+        if(user){
+            if(user.role_id === 1){
                 navigate('/user');
             }
-        }).catch(error => {
-            console.log(error);
-            localStorage.removeItem('token');
-            navigate('/login');
-        })
+            authService.me(token).then(response => {
+                localStorage.setItem('user', JSON.stringify(response.data));
+            }).catch(error => {
+                console.log(error);
+                localStorage.removeItem('token');
+                navigate('/login');
+            })
+        } else {
+            authService.me(token).then(response => {
+                localStorage.setItem('user', JSON.stringify(response.data));
+                if(response.data.role_id === 1){
+                    navigate('/user');
+                }
+            }).catch(error => {
+                console.log(error);
+                localStorage.removeItem('token');
+                navigate('/login');
+            })
+        }
     }, [])
 
     return (
@@ -67,16 +82,30 @@ const UserHome = () => {
             navigate('/login'); 
         }
         
-        authService.me(token).then(response => {
-            localStorage.setItem('role', JSON.stringify(response.data.role_id));
-            if(response.data.role_id === 2){
+        const user = JSON.parse(localStorage.getItem('user'));
+        if(user){
+            if(user.role_id === 2){
                 navigate('/admin');
             }
-        }).catch(error => {
-            console.log(error);
-            localStorage.removeItem('token');
-            navigate('/login');
-        })
+            authService.me(token).then(response => {
+                localStorage.setItem('user', JSON.stringify(response.data));
+            }).catch(error => {
+                console.log(error);
+                localStorage.removeItem('token');
+                navigate('/login');
+            })
+        } else {
+            authService.me(token).then(response => {
+                localStorage.setItem('user', JSON.stringify(response.data));
+                if(response.data.role_id === 2){
+                    navigate('/admin');
+                }
+            }).catch(error => {
+                console.log(error);
+                localStorage.removeItem('token');
+                navigate('/login');
+            })
+        }
     }, [])
 
     return (
