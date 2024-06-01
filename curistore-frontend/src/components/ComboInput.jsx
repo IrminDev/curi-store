@@ -14,7 +14,7 @@ const ComboInput = ({options, handleChange, placeholder, name, children, require
                  <option disabled id='default' className=' text-teal-950' value="default">{placeholder}</option>
                 {options.map(option => {
                     return (
-                        <option className=' text-teal-950' value={option.value}>{option.text}</option>
+                        <option key={option.value} className=' text-teal-950' value={option.value}>{option.text}</option>
                     )
                 })}
             </select>

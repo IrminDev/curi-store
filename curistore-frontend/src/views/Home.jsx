@@ -26,15 +26,30 @@ const AdminHome = () => {
             navigate('/login'); 
         }
         
-        authService.me(token).then(response => {
-            if(response.data.role_id === 1){
+        const user = JSON.parse(localStorage.getItem('user'));
+        if(user){
+            if(user.role_id === 1){
                 navigate('/user');
             }
-        }).catch(error => {
-            console.log(error);
-            localStorage.removeItem('token');
-            navigate('/login');
-        })
+            authService.me(token).then(response => {
+                localStorage.setItem('user', JSON.stringify(response.data));
+            }).catch(error => {
+                console.log(error);
+                localStorage.removeItem('token');
+                navigate('/login');
+            })
+        } else {
+            authService.me(token).then(response => {
+                localStorage.setItem('user', JSON.stringify(response.data));
+                if(response.data.role_id === 1){
+                    navigate('/user');
+                }
+            }).catch(error => {
+                console.log(error);
+                localStorage.removeItem('token');
+                navigate('/login');
+            })
+        }
     }, [])
 
     return (
@@ -67,15 +82,30 @@ const UserHome = () => {
             navigate('/login'); 
         }
         
-        authService.me(token).then(response => {
-            if(response.data.role_id === 2){
+        const user = JSON.parse(localStorage.getItem('user'));
+        if(user){
+            if(user.role_id === 2){
                 navigate('/admin');
             }
-        }).catch(error => {
-            console.log(error);
-            localStorage.removeItem('token');
-            navigate('/login');
-        })
+            authService.me(token).then(response => {
+                localStorage.setItem('user', JSON.stringify(response.data));
+            }).catch(error => {
+                console.log(error);
+                localStorage.removeItem('token');
+                navigate('/login');
+            })
+        } else {
+            authService.me(token).then(response => {
+                localStorage.setItem('user', JSON.stringify(response.data));
+                if(response.data.role_id === 2){
+                    navigate('/admin');
+                }
+            }).catch(error => {
+                console.log(error);
+                localStorage.removeItem('token');
+                navigate('/login');
+            })
+        }
     }, [])
 
     return (
@@ -89,7 +119,7 @@ const UserHome = () => {
 
             <Routes>
                 <Route index element={<Index/>} />
-                <Route path="cart" element={<Cart/>} />
+                <Route path="cart" element={<p>Carrito</p>} />
                 <Route path="orders" element={<p>Compras</p>} />
                 <Route path="profile" element={<p>Perfil</p>} />
             </Routes>

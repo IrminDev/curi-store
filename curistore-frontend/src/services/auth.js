@@ -26,4 +26,14 @@ const register = async (user) => {
     return response;
 }
 
-export default {login, me, register}
+const logout = async (token) => {
+    const response = await axios.post(`${baseUrl}logout`, null, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    });
+
+    return response;
+}
+
+export default {login, me, register, logout}

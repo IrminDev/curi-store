@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\DB;
 
 return new class extends Migration
 {
-    /**
+     /**
      * Run the migrations.
      */
     public function up(): void{
@@ -21,12 +21,14 @@ return new class extends Migration
 
     private function createView(): string{
         return <<<SQL
-        CREATE VIEW stats_view AS
-        SELECT products.id, products.title, SUM(orders.quantity) as total, SUM(orders.quantity * products.price) as earnings, products.brand_id, products.category_id, brands.name as brand, categories.name as category
-        FROM products INNER JOIN orders ON products.id = orders.product_id
-        INNER JOIN brands ON products.brand_id = brands.id
-        INNER JOIN categories ON products.category_id = categories.id
-        GROUP BY products.id, products.title, products.brand_id, products.category_id, brands.name, categories.name
+        CREATE VIEW userOrders AS
+        SELECT users.id, purchases.id as purchase_id, SUM(products.price * orders.quantity) as total, addresses.address, addresses.city, addresses.state, addresses.zip
+        FROM users
+        JOIN purchases ON users.id = purchases.user_id
+        JOIN addresses ON purchases.address_id = addresses.id
+        JOIN orders ON purchases.id = orders.purchase_id
+        JOIN products ON orders.product_id = products.id
+        GROUP BY users.id, purchases.id, addresses.address, addresses.city, addresses.state, addresses.zip
         SQL;
     }
 

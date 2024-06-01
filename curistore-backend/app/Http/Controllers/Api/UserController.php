@@ -5,15 +5,16 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Wallet;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
-    public function index()
-    {
+    public function index(){
+        // List all users and their wallets
         return response()->json(
-            User::all()
+            User::with('wallet')->get()
         );
     }
 
@@ -66,12 +67,62 @@ class UserController extends Controller
 
         $data['password'] = Hash::make($data['password']);
 
-        User::create($data);
+        $user = User::create($data);
+
+        $walletData = [
+            'user_id' => $user->id,
+            'balance' => 5000
+        ];
+
+        Wallet::create($walletData);
 
         return response()->json([
             'status' => 'ok',
             'message' => 'User created successfully',
             'data' => $data
         ])->setStatusCode(201);
+    }
+
+    public function createAdmin(Request $request){
+        try {
+            if(auth()->user()->role_id !== 2){
+                return response()->json(['message' => 'Unauthorized'], 401);
+            }
+
+            $data = $request->all();
+            $validator = Validator::make($data, [
+                'name' => 'required',
+                'last_name' => 'required',
+                'email' => 'required|email|unique:users',
+                'password' => 'required'
+            ]);
+
+            if($validator->fails()){
+                return response()->json(['error' => $validator->errors()])->setStatusCode(400);
+            }
+
+            $data['password'] = Hash::make($data['password']);
+            $data['role_id'] = 2;
+
+            $user = User::create($data);
+
+            $walletData = [
+                'user_id' => $user->id,
+                'balance' => 5000
+            ];
+
+            Wallet::create($walletData);
+
+            return response()->json([
+                'status' => 'ok',
+                'message' => 'Admin created successfully',
+                'data' => $data
+            ])->setStatusCode(201);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $th->getMessage()
+            ])->setStatusCode(500);
+        }
     }
 }

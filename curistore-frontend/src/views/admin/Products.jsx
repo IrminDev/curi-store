@@ -1,17 +1,34 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import CountCard from '../../components/CountCard'
 import { FaTags, FaBox } from "react-icons/fa";
 import ProductInfo from '../../components/ProductInfo';
 import { Link } from 'react-router-dom';
+import productService from '../../services/product';
+import statsService from '../../services/stats';
 
 const Products = () => {
+    const [products, setProducts] = useState([]);
+    const [stats, setStats] = useState({});
+    
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+
+        productService.getAll().then(response => {
+            setProducts(response.data);
+        })
+
+        statsService.getStats(token).then(response => {
+            setStats(response.data);
+        })
+    }, []);
+    
     return (
         <div className=' flex flex-col justify-center items-center mt-20 bg-teal-100'>
             <div className=' h-auto flex flex-row flex-wrap items-center justify-evenly w-full mt-5 mb-5'>
-                <CountCard number={0} label={'Productos'} background={'bg-teal-800'}>
+                <CountCard number={stats.products} label={'Productos'} background={'bg-teal-800'}>
                     <FaBox/>
                 </CountCard>
-                <CountCard number={0} label={'Ventas'} background={'bg-teal-700'}>
+                <CountCard number={stats.purchases} label={'Ventas'} background={'bg-teal-700'}>
                     <FaTags/>
                 </CountCard>
                 <div>
@@ -29,18 +46,11 @@ const Products = () => {
                         <p>ID</p>
                         <p>Stock</p>
                     </div>
-                    <ProductInfo product={{title: 'Producto 1', price: 100, id: 10, stock: 100}}/>
-                    <ProductInfo product={{title: 'Producto 1', price: 100, id: 10, stock: 100}}/>
-                    <ProductInfo product={{title: 'Producto 1', price: 100, id: 10, stock: 60}}/>
-                    <ProductInfo product={{title: 'Producto 1', price: 100, id: 10, stock: 50}}/>
-                    <ProductInfo product={{title: 'Producto 1', price: 100, id: 10, stock: 67}}/>
-                    <ProductInfo product={{title: 'Producto 1', price: 100, id: 10, stock: 2}}/>
-                    <ProductInfo product={{title: 'Producto 1', price: 100, id: 10, stock: 0}}/>
-                    <ProductInfo product={{title: 'Producto 1', price: 100, id: 10, stock: 1}}/>
-                    <ProductInfo product={{title: 'Producto 1', price: 100, id: 10, stock: 342}}/>
-                    <ProductInfo product={{title: 'Producto 1', price: 100, id: 10, stock: 10}}/>
-                    <ProductInfo product={{title: 'Producto 1', price: 100, id: 10, stock: 34}}/>
-                    <ProductInfo product={{title: 'Producto 1', price: 100, id: 10, stock: 10}}/>
+                    {
+                        products.map(product => {
+                            return <ProductInfo key={product.id} product={product}/>
+                        })
+                    }
                 </div>
             </div>
         </div>

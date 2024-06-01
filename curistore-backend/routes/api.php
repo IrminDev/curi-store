@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\AddressController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\PurchaseController;
+use App\Http\Controllers\Api\StatsController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 
@@ -60,6 +61,20 @@ Route::group([
     Route::post('/product',  [ProductController::class, 'store'])->middleware('auth:api')->name('store');
 
     Route::post('/products', [ProductController::class, 'multipleStore'])->middleware('auth:api')->name('multipleStore');
+
+    Route::get('/stats', [StatsController::class, 'show']);
+
+    Route::get('/stats/product', [StatsController::class, 'statsByProduct']);
+    
+    Route::get('/stats/brand', [StatsController::class, 'statsByBrand']);
+
+    Route::get('/stats/category', [StatsController::class, 'statsByCategory']);
+
+    Route::get('/users', [UserController::class, 'index']);
+
+    Route::get('/user/{id}', [UserController::class, 'show']);
+
+    Route::post('/user', [UserController::class, 'createAdmin']);
 });
 
 // Brand routes

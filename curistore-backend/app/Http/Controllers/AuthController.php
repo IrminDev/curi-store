@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
   
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Wallet;
 use Illuminate\Support\Facades\Validator;
   
   
@@ -35,6 +36,11 @@ class AuthController extends Controller
             $user->password = bcrypt(request()->password);
             $user->save();
 
+            $wallet = new Wallet;
+            $wallet->user_id = $user->id;
+            $wallet->balance = 5000;
+            $wallet->save();
+            
             $token = auth()->guard('api')->login($user);
 
             return $this->respondWithToken($token);
@@ -107,5 +113,38 @@ class AuthController extends Controller
             'token_type' => 'bearer',
             'expires_in' => auth()->guard('api')->factory()->getTTL() * 60
         ]);
+    }
+
+    public function createAdmin() {
+        try {
+            $validator = Validator::make(request()->all(), [
+                'name' => 'required',
+                'last_name' => 'required',
+                'email' => 'required|email|unique:users',
+                'password' => 'required|min:8',
+            ]);
+      
+            if($validator->fails()){
+                return response()->json($validator->errors()->toJson(), 400);
+            }
+      
+            $user = new User;
+            $user->name = request()->name;
+            $user->last_name = request()->last_name;
+            $user->email = request()->email;
+            $user->password = bcrypt(request()->password);
+            $user->role_id = 2;
+            $user->save();
+
+            $wallet = new Wallet;
+            $wallet->user_id = $user->id;
+            $wallet->balance = 0;
+
+            $wallet->save();
+
+            return response()->json(['message' => 'Admin created successfully'], 200);
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
     }
 }
