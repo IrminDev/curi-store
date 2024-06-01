@@ -22,9 +22,11 @@ return new class extends Migration
     private function createView(): string{
         return <<<SQL
         CREATE VIEW stats_view AS
-        SELECT products.id, products.title, SUM(orders.quantity) as total, SUM(orders.quantity * products.price) as earnings, products.brand_id, products.category_id
+        SELECT products.id, products.title, SUM(orders.quantity) as total, SUM(orders.quantity * products.price) as earnings, products.brand_id, products.category_id, brands.name as brand, categories.name as category
         FROM products INNER JOIN orders ON products.id = orders.product_id
-        GROUP BY products.id, products.title, products.brand_id, products.category_id
+        INNER JOIN brands ON products.brand_id = brands.id
+        INNER JOIN categories ON products.category_id = categories.id
+        GROUP BY products.id, products.title, products.brand_id, products.category_id, brands.name, categories.name
         SQL;
     }
 

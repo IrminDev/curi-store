@@ -1,17 +1,37 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import CountCard from '../../components/CountCard'
 import { FaTags, FaBox } from "react-icons/fa";
 import UserInfo from '../../components/UserInfo';
 import { Link } from 'react-router-dom';
+import usersService from '../../services/user';
 
 const Users = () => {
+    const [users, setUsers] = useState([]);
+    const [counter, setCounter] = useState({
+        users: 0,
+        admins: 0
+    });
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        usersService.getUsers(token).then(response => {
+            setUsers(response.data);
+            setCounter({
+                users: response.data.length,
+                admins: response.data.filter(user => user.role_id === 2).length
+            })
+        }).catch(error => {
+            console.log(error);
+        });
+    }, []);
+
     return (
         <div className=' flex flex-col justify-center items-center mt-20 bg-teal-100'>
             <div className=' h-auto flex flex-row flex-wrap items-center justify-evenly w-full my-5'>
-                <CountCard number={0} label={'Usuarios'} background={'bg-teal-800'}>
+                <CountCard number={counter.users} label={'Usuarios'} background={'bg-teal-800'}>
                     <FaBox/>
                 </CountCard>
-                <CountCard number={0} label={'Administradores'} background={'bg-teal-700'}>
+                <CountCard number={counter.admins} label={'Administradores'} background={'bg-teal-700'}>
                     <FaTags/>
                 </CountCard>
                 <div>
@@ -28,16 +48,9 @@ const Users = () => {
                         <p>Billetera</p>
                         <p>Rol</p>
                     </div>
-                    <UserInfo user={{email: 'test@gmail.com', wallet: 1000, role: 2}}/>
-                    <UserInfo user={{email: 'test@gmail.com', wallet: 5000, role: 2}}/>
-                    <UserInfo user={{email: 'test@gmail.com', wallet: 6000, role: 1}}/>
-                    <UserInfo user={{email: 'test@gmail.com', wallet: 7000, role: 1}}/>
-                    <UserInfo user={{email: 'test@gmail.com', wallet: 100, role: 2}}/>
-                    <UserInfo user={{email: 'test@gmail.com', wallet: 23000, role: 2}}/>
-                    <UserInfo user={{email: 'test@gmail.com', wallet: 3400, role: 1}}/>
-                    <UserInfo user={{email: 'test@gmail.com', wallet: 65400, role: 2}}/>
-                    <UserInfo user={{email: 'test@gmail.com', wallet: 0, role: 1}}/>
-
+                    {users.map(user => (
+                        <UserInfo key={user.id} user={user}/>
+                    ))}
                 </div>
             </div>
         </div>

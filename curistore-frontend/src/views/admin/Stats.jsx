@@ -1,22 +1,61 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import CountCard from '../../components/CountCard'
 import { FaUsers, FaTags, FaBox, FaMoneyBill } from "react-icons/fa";
 import { BarChart } from '@mui/x-charts/BarChart';
+import statsService from '../../services/stats';
 
 const Stats = () => {
+    const [stats, setStats] = useState({
+        users: 0,
+        products: 0,
+        pruchases: 0,
+        earnings: 0
+    });
+
+    const [products, setProducts] = useState([]);
+
+    const [categories, setCategories] = useState([]);
+
+    const [brands, setBrands] = useState([]);
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+
+        statsService.getStats(token).then(response => {
+            setStats({
+                users: response.data.users,
+                products: response.data.products,
+                purchases: response.data.purchases,
+                earnings: response.data.earnings !== null ? response.data.earnings : 0
+            })
+        });
+
+        statsService.getStatsByProducts(token).then(response => {
+            setProducts(response.data);
+        });
+
+        statsService.getStatsByCategories(token).then(response => {
+            setCategories(response.data);
+        })
+
+        statsService.getStatsByBrands(token).then(response => {
+            setBrands(response.data);
+        })
+    }, []);
+
     return (
         <div className=' flex flex-col justify-center items-center mt-20 bg-teal-100'>
             <div className=' h-auto flex flex-row flex-wrap items-center justify-evenly w-full mt-5'>
-                <CountCard number={0} label={'Usuarios'} background={'bg-teal-800'}>
+                <CountCard number={stats.users} label={'Usuarios'} background={'bg-teal-800'}>
                     <FaUsers/>
                 </CountCard>
-                <CountCard number={0} label={'Productos'} background={'bg-teal-700'}>
+                <CountCard number={stats.products} label={'Productos'} background={'bg-teal-700'}>
                     <FaBox/>
                 </CountCard>
-                <CountCard number={0} label={'Ventas'} background={'bg-teal-800'}>
+                <CountCard number={stats.purchases} label={'Ventas'} background={'bg-teal-800'}>
                     <FaTags/>
                 </CountCard>
-                <CountCard number={0} label={'Ingresos'} background={'bg-teal-700'}>
+                <CountCard number={stats.earnings} label={'Ingresos'} background={'bg-teal-700'}>
                     <FaMoneyBill/>
                 </CountCard>
             </div>
@@ -27,10 +66,11 @@ const Stats = () => {
                 <div className=' flex flex-row items-center justify-center w-[80%]'>
                     <BarChart
                     series={[
-                        { data: [35, 44, 24, 34] },
+                        { data: products.map(product => product.total_earnings).splice(0, 10)},
                     ]}
                     height={350}
-                    xAxis={[{ data: ['Producto 1', 'Producto 2', 'Producto 3', 'Producto 4'], scaleType: 'band' }]}
+                    xAxis={[{ data: products.map(product => product.title).splice(0, 10)
+                    , scaleType: 'band' }]}
                     margin={{ top: 10, bottom: 30, left: 40, right: 10 }}
                     />
                 </div>
@@ -42,10 +82,11 @@ const Stats = () => {
                 <div className=' flex flex-row items-center justify-center w-[80%]'>
                     <BarChart
                     series={[
-                        { data: [155, 234, 254, 122] },
+                        { data: categories.map(category => category.total_earnings).splice(0, 10)},
                     ]}
                     height={350}
-                    xAxis={[{ data: ['Categoría 1', 'Categoría 2', 'Categoría 3', 'Categoría 4'], scaleType: 'band' }]}
+                    xAxis={[{ data: categories.map(category => category.category).splice(0, 10)     
+                        , scaleType: 'band' }]}
                     margin={{ top: 10, bottom: 30, left: 40, right: 10 }}
                     />
                 </div>
@@ -57,10 +98,11 @@ const Stats = () => {
                 <div className=' flex flex-row items-center justify-center w-[80%]'>
                     <BarChart
                     series={[
-                        { data: [67, 89, 110, 59] },
+                        { data: brands.map(brand => brand.total_earnings).splice(0, 10)},
                     ]}
                     height={350}
-                    xAxis={[{ data: ['Marca 1', 'Marca 2', 'Marca 3', 'Marca 4'], scaleType: 'band' }]}
+                    xAxis={[{ data: brands.map(brand => brand.brand).splice(0, 10)     
+                    , scaleType: 'band' }]}
                     margin={{ top: 10, bottom: 30, left: 40, right: 10 }}
                     />
                 </div>

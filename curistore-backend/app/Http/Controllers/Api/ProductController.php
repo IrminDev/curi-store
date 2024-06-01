@@ -38,11 +38,10 @@ class ProductController extends Controller
                 'brand_id' => 'required',
                 'description' => 'required',
                 'category_id' => 'required',
-                'price' => 'required',
-                'stock' => 'required',
+                'price' => 'required|numeric',
                 'thumbnail' => 'required',
-                'rating' => 'required',
-                'discount' => 'required'
+                'stock' => 'required',
+                'images' => 'required'
             ]);
 
             if($validator->fails()){
@@ -50,6 +49,14 @@ class ProductController extends Controller
             }
 
             $product = Product::create($data);
+
+            // Now add the images to the product
+            foreach($data['images'] as $image){
+                Thumbnail::create([
+                    'product_id' => $product->id,
+                    'url' => $image
+                ]);
+            }
 
             return response()->json([
                 'status' => 'ok',
