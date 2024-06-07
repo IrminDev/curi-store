@@ -20,9 +20,25 @@ class ProductController extends Controller
     }
 
     public function show($id){
-        return response()->json(
-            Product::find($id)
-        );
+        // Find the product by its id, show its brand, category and images
+        $product = Product::with('brand', 'category', 'thumbnails')->find($id);
+
+        if($product){
+            return response()->json($product);
+        } else {
+            return response()->json(['message' => 'Product not found'])->setStatusCode(404);
+        }
+    }
+
+    public function productsByCategory($category_id){
+        // Find the products by their category id
+        $products = Product::where('category_id', $category_id)->get();
+
+        if($products){
+            return response()->json($products);
+        } else {
+            return response()->json(['message' => 'Products not found'])->setStatusCode(404);
+        }
     }
 
     public function store(Request $request){

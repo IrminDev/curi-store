@@ -21,11 +21,7 @@ const SignUp = () => {
         if(token){
             authService.me(token).then(response => {
                 if(response.status === 200){
-                    if(response.data.role_id === 2){
-                        navigate('/admin');
-                    } else {
-                        navigate('/user');
-                    }
+                    navigate('/user');
                 } else {
                     localStorage.removeItem('token');
                 }

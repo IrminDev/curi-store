@@ -29,6 +29,8 @@ Route::get('/products', [ProductController::class, 'index']);
 
 Route::get('/products/{id}', [ProductController::class, 'show']);
 
+Route::get('/products/category/{category_id}', [ProductController::class, 'productsByCategory']);
+
 
 // Address routes
 Route::get('/addresses/{user_id}', [AddressController::class, 'addressesByUserId']);
