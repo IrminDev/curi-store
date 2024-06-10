@@ -18,7 +18,6 @@ root.render(
                 <Route path="user/*" element={<UserHome />} />
                 <Route path="login" element={<Login />} />
                 <Route path="signup" element={<SignUp />} />
-                <Route path="cart" element={<Cart/>} />
             </Routes>
         </Router>
     </React.StrictMode>

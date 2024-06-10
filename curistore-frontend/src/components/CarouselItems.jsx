@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import productService from '../services/product';
 import { Link } from 'react-router-dom';
+import cartService from '../services/cart';
 
 const CarouselItems = ({category}) => {
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -19,6 +20,19 @@ const CarouselItems = ({category}) => {
             prevIndex === 0 ? items.length - 1 : prevIndex - 1
         );
     };
+
+    const handleOnClick = (id) => {
+        const token = localStorage.getItem('token');
+        const user = localStorage.getItem('user');
+        console.log(user);
+
+        cartService.addToCart(user.id, token, {
+            product_id: id,
+            quantity: 1
+        }).then(response => {
+            // console.log(response);
+        });
+    }
 
     const nextSlide = () => {
         setCurrentIndex((prevIndex) =>
@@ -54,8 +68,10 @@ const CarouselItems = ({category}) => {
                             <span className="text-gray-900 font-bold">
                             {item.price}
                             </span>
-                            <button className="px-3 py-1 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:bg-green-800 text-sm">
-                            Agregar
+                            <button
+                            onClick={() => handleOnClick(item.id)}
+                            className="px-3 py-1 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:bg-green-800 text-sm">
+                                Agregar
                             </button>
                         </div>
                         </div>

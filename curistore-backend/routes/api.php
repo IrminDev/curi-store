@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\PurchaseController;
 use App\Http\Controllers\Api\StatsController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Api\CartController;
 use Illuminate\Http\Request;
 
 // Users routes
@@ -77,6 +78,15 @@ Route::group([
     Route::get('/user/{id}', [UserController::class, 'show']);
 
     Route::post('/user', [UserController::class, 'createAdmin']);
+
+    // Cart routes
+    Route::get('/cart/{id}', [CartController::class, 'show']);
+
+    Route::post('/cart/{id}', [CartController::class, 'store']);
+
+    Route::delete('/cart/{id}', [CartController::class, 'destroy']);
+
+    Route::put('/cart/{id}', [CartController::class, 'update']);
 });
 
 // Brand routes

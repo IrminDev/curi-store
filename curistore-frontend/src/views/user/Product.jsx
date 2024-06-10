@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react'
 import productService from '../../services/product'
 import {useParams} from 'react-router-dom'
 import CarouselItems from '../../components/CarouselItems'
+import cartService from '../../services/cart'
 
 const Product = () => {
     const [product, setProduct] = useState({
@@ -16,8 +17,9 @@ const Product = () => {
         category: '',
         brand: '',
         category_id: 0
-
     });
+    const [quantity, setQuantity] = useState(1);
+
     const [currentImage, setCurrentImage] = useState(0);
 
     const {id} = useParams();
@@ -38,6 +40,22 @@ const Product = () => {
         return () => clearInterval(interval);
     }, [product.thumbnails]);
 
+    const handleChange = (e) => {
+        setQuantity(e.target.value);
+    }
+
+    const handleOnClick = (id) => {
+        const token = localStorage.getItem('token');
+        const user = JSON.parse(localStorage.getItem('user'));
+        console.log(user);
+
+        cartService.addToCart(user.id, token, {
+            product_id: id,
+            quantity: quantity
+        }).then(response => {
+            // console.log(response);
+        });
+    }
 
     return (
         <div className=' mt-20'>
@@ -85,8 +103,9 @@ const Product = () => {
                             <span className="text-gray-500">Cantidad</span>
                             <input
                             type="number"
-                            min="1"
-                            max="10"
+                            min={product.stock > 10 ? 1 : product.stock}
+                            max={product.stock > 10 ? 10 : product.stock}
+                            onChange={handleChange}
                             defaultValue="1"
                             className="ml-auto text-gray-900 border border-gray-300 rounded-md w-20 text-center"
                             />
@@ -95,8 +114,11 @@ const Product = () => {
                             <span className="title-font font-medium text-2xl text-gray-900">
                             ${product.price}
                             </span>
-                            <button className="flex ml-auto text-white bg-teal-700 border-0 py-2 px-6 focus:outline-none hover:bg-teal-500 rounded">
-                            Añadir al Carrito
+                            <button
+                            onClick={() => handleOnClick(product.id)}
+                            enabled={product.stock > 0 ? 'true' : 'false'}
+                            className="flex ml-auto text-white bg-teal-700 border-0 py-2 px-6 focus:outline-none hover:bg-teal-500 rounded">
+                                Añadir al Carrito
                             </button>
                         </div>
                         </div>

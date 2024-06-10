@@ -35,6 +35,7 @@ const Login = () => {
             if(response.status === 200){
                 localStorage.setItem('token', response.data.access_token);
                 loginService.me(response.data.access_token).then(response => {
+                    localStorage.setItem('user', JSON.stringify(response.data));
                     if(response.data.role_id === 1){
                         navigate('/user');
                     } else {

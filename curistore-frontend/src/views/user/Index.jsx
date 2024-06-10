@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react'
 import ProductCardIndex from '../../components/ProductCardIndex'
 import SearchBar from '../../components/SearchBar'
 import productService from '../../services/product'
+import cartService from '../../services/cart'
 
 const Index = () => {
     const [products, setProducts] = useState([]);
@@ -15,6 +16,18 @@ const Index = () => {
     
     const handleChange = (e) => {
         setSearch(e.target.value);
+    }
+
+    const handleOnClick = (id) => {
+        const token = localStorage.getItem('token');
+        const user = JSON.parse(localStorage.getItem('user'));
+
+        cartService.addToCart(user.id, token, {
+            product_id: id,
+            quantity: 1
+        }).then(response => {
+            console.log(response);
+        });
     }
 
     return (
@@ -31,7 +44,7 @@ const Index = () => {
                             return product;
                         }
                     }).map(product => {
-                        return <ProductCardIndex key={product.id} product={product}/>
+                        return <ProductCardIndex handleOnClick={handleOnClick} key={product.id} product={product}/>
                     })
                 }
             </div>
