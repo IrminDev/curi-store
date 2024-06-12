@@ -3,6 +3,7 @@ import productService from '../../services/product'
 import {useParams} from 'react-router-dom'
 import CarouselItems from '../../components/CarouselItems'
 import cartService from '../../services/cart'
+import { toast } from 'react-toastify'
 
 const Product = () => {
     const [product, setProduct] = useState({
@@ -29,6 +30,7 @@ const Product = () => {
             setProduct(response.data);
             console.log(response.data);
         }).catch(err => {
+            toast.error('Error al intentar obtener el producto.');
             console.log(err);
         });
     }, [id]);
@@ -53,7 +55,8 @@ const Product = () => {
             product_id: id,
             quantity: quantity
         }).then(response => {
-            // console.log(response);
+            toast.success('Producto agregado al carrito.');
+            console.log(response);
         });
     }
 
@@ -70,9 +73,9 @@ const Product = () => {
                             {product.title}
                         </h1>
                         <div className="flex mb-4">
-                            <a className="flex-grow text-teal-800 border-b-2 border-teal-600 py-2 text-lg px-1">
+                            <span className="flex-grow text-teal-800 border-b-2 border-teal-600 py-2 text-lg px-1">
                             Descripción
-                            </a>
+                            </span>
                         </div>
             
                         <p className="leading-relaxed mb-4">
