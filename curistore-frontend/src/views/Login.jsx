@@ -6,6 +6,7 @@ import { MdEmail, MdLock } from "react-icons/md";
 import loginService from '../services/auth'
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const Login = () => {
     const navigate = useNavigate();
@@ -43,10 +44,12 @@ const Login = () => {
                     }
                 })
             } else {
+                toast.error('Error al intentar iniciar sesión.');
                 console.log('Login failed');
                 console.log(response);
             }
         }).catch(error => {
+            toast.error('Error al intentar iniciar sesión.');
             console.log(error);
         })
     };

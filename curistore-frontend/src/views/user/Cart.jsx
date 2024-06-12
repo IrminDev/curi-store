@@ -4,6 +4,7 @@ import SummaryCard from '../../components/SummaryCard';
 import ProductCard from '../../components/ProductCard';
 import EmptyCart from '../../components/EmptyCart';
 import cartService from '../../services/cart';
+import { toast } from 'react-toastify';
 
 const Cart = () => {
     const [products, setProducts] = useState([]);
@@ -32,6 +33,7 @@ const Cart = () => {
                 setProducts(prevProducts => [...prevProducts, product]);
             });
         }).catch(error => {
+            toast.error('Error al intentar obtener el carrito.');
             console.error(error);
         });
     }, [])
@@ -42,8 +44,10 @@ const Cart = () => {
         const token = localStorage.getItem('token');
         const user = JSON.parse(localStorage.getItem('user'));
         cartService.removeFromCart(user.id, token, { product_id: id }).then(response => {
+            toast.info('Producto eliminado del carrito.');
             console.log(response);
         }).catch(error => {
+            toast.error('Error al intentar eliminar el producto del carrito.');
             console.error(error);
         });
     };

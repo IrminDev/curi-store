@@ -17,6 +17,7 @@ import UserForm from './admin/UserForm';
 import Profile from './admin/Profile';
 import Cart from './user/Cart';
 import Product from './user/Product';
+import { toast } from 'react-toastify';
 
 const AdminHome = () => {
     const navigate = useNavigate();
@@ -35,6 +36,7 @@ const AdminHome = () => {
             authService.me(token).then(response => {
                 localStorage.setItem('user', JSON.stringify(response.data));
             }).catch(error => {
+                toast.error('Sesión expirada. Por favor inicie sesión nuevamente.');
                 console.log(error);
                 localStorage.removeItem('token');
                 navigate('/login');
@@ -46,6 +48,7 @@ const AdminHome = () => {
                     navigate('/user');
                 }
             }).catch(error => {
+                toast.error('Sesión expirada. Por favor inicie sesión nuevamente.');
                 console.log(error);
                 localStorage.removeItem('token');
                 navigate('/login');
@@ -91,6 +94,7 @@ const UserHome = () => {
             authService.me(token).then(response => {
                 localStorage.setItem('user', JSON.stringify(response.data));
             }).catch(error => {
+                toast.error('Sesión expirada. Por favor inicie sesión nuevamente.');
                 console.log(error);
                 localStorage.removeItem('token');
                 navigate('/login');
@@ -102,6 +106,7 @@ const UserHome = () => {
                     navigate('/admin');
                 }
             }).catch(error => {
+                toast.error('Sesión expirada. Por favor inicie sesión nuevamente.');
                 console.log(error);
                 localStorage.removeItem('token');
                 navigate('/login');

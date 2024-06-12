@@ -3,6 +3,7 @@ import ProductCardIndex from '../../components/ProductCardIndex'
 import SearchBar from '../../components/SearchBar'
 import productService from '../../services/product'
 import cartService from '../../services/cart'
+import { toast } from 'react-toastify'
 
 const Index = () => {
     const [products, setProducts] = useState([]);
@@ -11,6 +12,9 @@ const Index = () => {
     useEffect(() => {
         productService.getAll().then(response => {
             setProducts(response.data);
+        }).catch(error => {
+            toast.error('Error al intentar obtener los productos.');
+            console.error(error);
         });
     }, []);
     
@@ -26,6 +30,7 @@ const Index = () => {
             product_id: id,
             quantity: 1
         }).then(response => {
+            toast.success('Producto agregado al carrito.');
             console.log(response);
         });
     }

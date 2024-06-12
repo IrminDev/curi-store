@@ -4,6 +4,7 @@ import Button from '../components/Button'
 import { MdPerson, MdEmail, MdLock } from "react-icons/md";
 import { Link, useNavigate } from 'react-router-dom';
 import authService from '../services/auth';
+import { toast } from 'react-toastify';
 
 const SignUp = () => {
     const navigate = useNavigate();
@@ -26,6 +27,7 @@ const SignUp = () => {
                     localStorage.removeItem('token');
                 }
             }).catch(error => {
+                toast.error('Error al intentar iniciar sesión.');
                 console.log(error);
             })
         }
@@ -35,6 +37,7 @@ const SignUp = () => {
         e.preventDefault();
         if(user.password !== user.confirm_password){
             console.log('Passwords do not match');
+            toast.error('Las contraseñas no coinciden.');
             return;
         }
         try {
