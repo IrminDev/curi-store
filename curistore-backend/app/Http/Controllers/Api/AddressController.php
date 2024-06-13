@@ -11,6 +11,12 @@ class AddressController extends Controller
 {
     public function addressesByUserId(Request $request){
         $user_id = $request->user_id;
+
+        // Check if the user is the owner of the address
+        if(auth()->user()->id !== $user_id){
+            return response()->json(['message' => 'Unauthorized'], 401);
+        }
+
         $addresses = Address::where('user_id', $user_id)->get();
         return response()->json($addresses);
     }
@@ -19,13 +25,16 @@ class AddressController extends Controller
         $data = $request->all();
         $validator = Validator::make($data, [
             'user_id' => 'required',
-            'name' => 'required',
-            'phone' => 'required',
             'address' => 'required',
             'city' => 'required',
-            'postal_code' => 'required',
-            'primary' => 'required'
+            'state' => 'required',
+            'zip' => 'required',
         ]);
+
+        // Check if the user is the owner of the address
+        if(auth()->user()->id !== $data['user_id']){
+            return response()->json(['message' => 'Unauthorized'], 401);
+        }
 
         if($validator->fails()){
             return response()->json(['error' => $validator->errors()])->setStatusCode(400);
@@ -40,9 +49,15 @@ class AddressController extends Controller
         ]);
     }
 
-    public function showAddressesByUserId($user_id, $address_id){
-        $addresses = Address::where('user_id', $user_id)->where('id', $address_id);
-        return response()->json($addresses);
+    public function showAddress($address_id){
+        $address = Address::where('id', $address_id);
+
+        // Check if the user is the owner of the address
+        if(auth()->user()->id !== $address->first()->user_id){
+            return response()->json(['message' => 'Unauthorized'], 401);
+        }
+
+        return response()->json($address);
     }
 
     public function update(Request $request, $id){

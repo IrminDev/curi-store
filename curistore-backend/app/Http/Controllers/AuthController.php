@@ -72,9 +72,11 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function me()
-    {
-        return response()->json(auth()->user());
+    public function me(){
+        // Show user data including wallet balance and addresses
+        $user = auth()->guard('api')->user();
+        $user->wallet;
+        return response()->json($user);
     }
   
     /**

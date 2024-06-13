@@ -18,6 +18,8 @@ import Profile from './admin/Profile';
 import Cart from './user/Cart';
 import Product from './user/Product';
 import { toast } from 'react-toastify';
+import ProfileUser from './user/Profile';
+import AddressForm from './user/AddressForm';
 
 const AdminHome = () => {
     const navigate = useNavigate();
@@ -115,7 +117,7 @@ const UserHome = () => {
     }, [])
 
     return (
-        <div>
+        <div className=''>
             <Header>
                 <HeaderLink url={'./'} text={'Inicio'}><FaHome/></HeaderLink>
                 <HeaderLink url={'./cart'} text={'Carrito'}><FaShoppingCart/></HeaderLink>
@@ -128,7 +130,8 @@ const UserHome = () => {
                 <Route path="product/:id" element={<Product/>} />
                 <Route path="cart" element={<Cart />} />
                 <Route path="orders" element={<p>Compras</p>} />
-                <Route path="profile" element={<p>Perfil</p>} />
+                <Route path="profile" element={<ProfileUser />} />
+                <Route path="profile/addressForm" element={<AddressForm />} />
             </Routes>
         </div>
     )

@@ -40,6 +40,25 @@ const SignUp = () => {
             toast.error('Las contraseñas no coinciden.');
             return;
         }
+
+        // Validate the fields using regex
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+        const nameRegex = /^[a-zA-Z\s]*$/;
+        if(!emailRegex.test(user.email)){
+            toast.error('Correo electrónico inválido.');
+            return;
+        }
+        if(!passwordRegex.test(user.password)){
+            toast.error('La contraseña debe tener al menos 8 caracteres, una letra y un número.');
+            return;
+        }
+        if(!nameRegex.test(user.name) || !nameRegex.test(user.last_name)){
+            toast.error('Nombre y apellido deben contener solo letras.');
+            return;
+        }
+
+
         try {
             authService.register(user).then(response => {
                 if(response.status === 200){

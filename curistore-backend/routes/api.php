@@ -32,19 +32,6 @@ Route::get('/products/{id}', [ProductController::class, 'show']);
 
 Route::get('/products/category/{category_id}', [ProductController::class, 'productsByCategory']);
 
-
-// Address routes
-Route::get('/addresses/{user_id}', [AddressController::class, 'addressesByUserId']);
-
-Route::post('/address', [AddressController::class, 'store']);
-
-Route::get('/address/{user_id}/{address_id}', [AddressController::class, 'showAddressesByUserId']);
-
-Route::put('/address/{id}', [AddressController::class, 'update']);
-
-Route::delete('/address/{id}', [AddressController::class, 'destroy']);
-
-
 // Orders routes
 Route::get('/orders/{purchase_id}', [OrderController::class, 'getOrdersByPurchaseId']);
 
@@ -87,6 +74,18 @@ Route::group([
     Route::delete('/cart/{id}', [CartController::class, 'destroy']);
 
     Route::put('/cart/{id}', [CartController::class, 'update']);
+
+    // Address routes
+    Route::get('/addresses/{user_id}', [AddressController::class, 'addressesByUserId']);
+
+    Route::post('/address', [AddressController::class, 'store']);
+
+    Route::get('/address/{address_id}', [AddressController::class, 'showAddress']);
+
+    Route::put('/address/{id}', [AddressController::class, 'update']);
+
+    Route::delete('/address/{id}', [AddressController::class, 'destroy']);
+
 });
 
 // Brand routes
