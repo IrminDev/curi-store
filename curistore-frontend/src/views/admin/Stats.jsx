@@ -21,26 +21,28 @@ const Stats = () => {
     useEffect(() => {
         const token = localStorage.getItem('token');
 
-        statsService.getStats(token).then(response => {
-            setStats({
-                users: response.data.users,
-                products: response.data.products,
-                purchases: response.data.purchases,
-                earnings: response.data.earnings !== null ? response.data.earnings : 0
+        if(token){
+            statsService.getStats(token).then(response => {
+                setStats({
+                    users: response.data.users,
+                    products: response.data.products,
+                    purchases: response.data.purchases,
+                    earnings: response.data.earnings !== null ? response.data.earnings : 0
+                })
+            });
+    
+            statsService.getStatsByProducts(token).then(response => {
+                setProducts(response.data);
+            });
+    
+            statsService.getStatsByCategories(token).then(response => {
+                setCategories(response.data);
             })
-        });
-
-        statsService.getStatsByProducts(token).then(response => {
-            setProducts(response.data);
-        });
-
-        statsService.getStatsByCategories(token).then(response => {
-            setCategories(response.data);
-        })
-
-        statsService.getStatsByBrands(token).then(response => {
-            setBrands(response.data);
-        })
+    
+            statsService.getStatsByBrands(token).then(response => {
+                setBrands(response.data);
+            })
+        }
     }, []);
 
     return (

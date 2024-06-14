@@ -20,6 +20,7 @@ import Product from './user/Product';
 import { toast } from 'react-toastify';
 import ProfileUser from './user/Profile';
 import AddressForm from './user/AddressForm';
+import Invoice from './user/Invoice';
 
 const AdminHome = () => {
     const navigate = useNavigate();
@@ -132,6 +133,7 @@ const UserHome = () => {
                 <Route path="orders" element={<p>Compras</p>} />
                 <Route path="profile" element={<ProfileUser />} />
                 <Route path="profile/addressForm" element={<AddressForm />} />
+                <Route path="orders/invoice/:id" element={<Invoice />} />
             </Routes>
         </div>
     )
