@@ -50,6 +50,13 @@ const AddressForm = () => {
             return;
         }
 
+        setAddress({
+            address: validator.escape(address.address),
+            city: validator.escape(address.city),
+            state: validator.escape(address.state),
+            zip: validator.escape(address.zip)
+        })
+
         addressService.createAddress({
             ...address,
             user_id: user.id

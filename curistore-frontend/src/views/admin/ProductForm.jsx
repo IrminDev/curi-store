@@ -92,6 +92,12 @@ const ProductForm = () => {
             return;
         }
 
+        setProduct({
+            ...product,
+            title: validator.escape(product.title),
+            description: validator.escape(product.description)
+        })
+
         try {
             const token = localStorage.getItem('token');
             const response = await productService.create(product, token);
