@@ -5,6 +5,7 @@ import { MdPerson, MdEmail, MdLock } from "react-icons/md";
 import { Link, useNavigate } from 'react-router-dom';
 import authService from '../services/auth';
 import { toast } from 'react-toastify';
+import validator from 'validator';
 
 const SignUp = () => {
     const navigate = useNavigate();
@@ -41,23 +42,29 @@ const SignUp = () => {
             return;
         }
 
-        // Validate the fields using regex
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
-        const nameRegex = /^[a-zA-Z\s]*$/;
-        if(!emailRegex.test(user.email)){
+        if(!validator.isEmail(user.email)){
+            console.log('Invalid email');
             toast.error('Correo electrónico inválido.');
             return;
         }
-        if(!passwordRegex.test(user.password)){
-            toast.error('La contraseña debe tener al menos 8 caracteres, una letra y un número.');
-            return;
-        }
-        if(!nameRegex.test(user.name) || !nameRegex.test(user.last_name)){
-            toast.error('Nombre y apellido deben contener solo letras.');
+
+        if(user.password.length < 8){
+            console.log('Password too short');
+            toast.error('La contraseña debe tener al menos 8 caracteres.');
             return;
         }
 
+        if(user.password.length > 20){
+            console.log('Password too long');
+            toast.error('La contraseña debe tener máximo 20 caracteres.');
+            return;
+        }
+
+        if(validator.isAlpha(user.name, ['es-ES']) && validator.isAlpha(user.last_name, ['es-ES']) && user.name.length > 3 && user.last_name.length > 2){
+            console.log('Invalid name or last name');
+            toast.error('Nombre y apellido deben contener solo letras.');
+            return;
+        }
 
         try {
             authService.register(user).then(response => {

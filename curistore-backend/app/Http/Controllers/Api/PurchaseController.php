@@ -11,7 +11,12 @@ use Illuminate\Http\Request;
 class PurchaseController extends Controller{
     public function getPurchasesByUserId(Request $request){
         $user_id = $request->user_id;
-        $purchases = Purchase::where('user_id', $user_id)->get();
+        
+        if($user_id != auth()->user()->id){
+            return response()->json(['error' => 'Unauthorized'])->setStatusCode(401);
+        }
+
+        $purchases = Purchase::where('user_id', $user_id)->with('order')->get();
         return response()->json($purchases);
     }
 
@@ -24,6 +29,10 @@ class PurchaseController extends Controller{
 
         if($validator->fails()){
             return response()->json(['error' => $validator->errors()])->setStatusCode(400);
+        }
+
+        if($data['user_id'] != auth()->user()->id){
+            return response()->json(['error' => 'Unauthorized'])->setStatusCode(401);
         }
 
         $purchase = Purchase::create($data);
@@ -57,8 +66,8 @@ class PurchaseController extends Controller{
     }
 
     public function show($id){
-        return response()->json(
-            Purchase::find($id)
-        );
+        $purchase = Purchase::find($id).with('order');
+        return response()->json($purchase);
     }
+
 }

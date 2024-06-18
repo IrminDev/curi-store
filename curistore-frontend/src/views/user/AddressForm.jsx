@@ -5,6 +5,7 @@ import { FaMapPin, FaMapSigns, FaMapMarked, FaMap} from "react-icons/fa";
 import addressService from '../../services/address';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import validator from 'validator';
 
 const AddressForm = () => {
     const [address, setAddress] = useState({
@@ -29,6 +30,26 @@ const AddressForm = () => {
         const token = localStorage.getItem('token');
         const user = JSON.parse(localStorage.getItem('user'));
     
+        if(!validator.isPostalCode(address.zip, 'any')){
+            toast.error('Código postal inválido');
+            return;
+        }
+
+        if(address.address.length < 5){
+            toast.error('Dirección inválida');
+            return;
+        }
+
+        if(address.city.length < 3){
+            toast.error('Ciudad inválida');
+            return;
+        }
+
+        if(address.state.length < 3){
+            toast.error('Estado inválido');
+            return;
+        }
+
         addressService.createAddress({
             ...address,
             user_id: user.id

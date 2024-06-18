@@ -131,11 +131,10 @@ const UserHome = () => {
                 <Route index element={<Index/>} />
                 <Route path="product/:id" element={<Product/>} />
                 <Route path="cart" element={<Cart />} />
-                <Route path="orders" element={<p>Compras</p>} />
                 <Route path="profile" element={<ProfileUser />} />
                 <Route path="profile/addressForm" element={<AddressForm />} />
                 <Route path="orders/invoice/:id" element={<Invoice />} />
-                <Route path="history" element={<ShoppingHistory />} />
+                <Route path="orders" element={<ShoppingHistory />} />
             </Routes>
         </div>
     )
