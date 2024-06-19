@@ -22,6 +22,7 @@ import ProfileUser from './user/Profile';
 import AddressForm from './user/AddressForm';
 import Invoice from './user/Invoice';
 import Checkout from './user/Checkout';
+import ShoppingHistory from './user/ShoppingHistory';
 
 const AdminHome = () => {
     const navigate = useNavigate();
@@ -131,11 +132,11 @@ const UserHome = () => {
                 <Route index element={<Index/>} />
                 <Route path="product/:id" element={<Product/>} />
                 <Route path="cart" element={<Cart />} />
-                <Route path="orders" element={<p>Compras</p>} />
                 <Route path="profile" element={<ProfileUser />} />
                 <Route path="profile/addressForm" element={<AddressForm />} />
                 <Route path="orders/invoice/:id" element={<Invoice />} />
                 <Route path="checkout" element={<Checkout />} />
+                <Route path="orders" element={<ShoppingHistory />} />
             </Routes>
         </div>
     )

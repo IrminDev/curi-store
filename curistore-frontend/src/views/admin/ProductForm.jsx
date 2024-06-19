@@ -8,6 +8,8 @@ import { useNavigate } from 'react-router-dom';
 import productService from '../../services/product';
 import brandService from '../../services/brand';
 import categoryService from '../../services/category';
+import { toast } from 'react-toastify';
+import validator from 'validator';
 
 const ProductForm = () => {
     const [brands, setBrands] = useState([]);
@@ -53,6 +55,49 @@ const ProductForm = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+
+        if(!validator.isURL(product.thumbnail)){
+            console.log('Invalid thumbnail');
+            toast.error('URL de la miniatura inválida.');
+            return;
+        }
+
+        if(product.images.length === 0){
+            console.log('No images');
+            toast.error('Debes agregar al menos una imagen.');
+            return;
+        }
+
+        if(product.category_id === 0){
+            console.log('No category');
+            toast.error('Debes seleccionar una categoría.');
+            return;
+        }
+
+        if(product.brand_id === 0){
+            console.log('No brand');
+            toast.error('Debes seleccionar una marca.');
+            return;
+        }
+
+        if(product.price <= 0){
+            console.log('Invalid price');
+            toast.error('Precio inválido.');
+            return;
+        }
+
+        if(product.stock <= 0){
+            console.log('Invalid stock');
+            toast.error('Stock inválido.');
+            return;
+        }
+
+        setProduct({
+            ...product,
+            title: validator.escape(product.title),
+            description: validator.escape(product.description)
+        })
+
         try {
             const token = localStorage.getItem('token');
             const response = await productService.create(product, token);
@@ -77,6 +122,13 @@ const ProductForm = () => {
 
     const handleAddImage = (event) => {
         event.preventDefault();
+
+        if(!validator.isURL(image)){
+            console.log('Invalid image');
+            toast.error('URL de la imagen inválida.');
+            return;
+        }
+
         setProduct({
             ...product,
             images: [...product.images, image]

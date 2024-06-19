@@ -4,6 +4,8 @@ import Button from '../../components/Button';
 import { MdPerson, MdEmail, MdLock } from "react-icons/md";
 import { useNavigate } from 'react-router-dom';
 import userService from '../../services/user';
+import validator from 'validator';
+import { toast } from 'react-toastify';
 
 const UserForm = () => {
     const [user, setUser] = useState({
@@ -24,10 +26,30 @@ const UserForm = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if(user.password !== user.confirm_password) {
-            alert('Las contraseñas no coinciden');
+        if(user.password !== user.confirm_password){
+            console.log('Passwords do not match');
+            toast.error('Las contraseñas no coinciden.');
             return;
         }
+
+        if(!validator.isEmail(user.email)){
+            console.log('Invalid email');
+            toast.error('Correo electrónico inválido.');
+            return;
+        }
+
+        if(user.password.length < 8){
+            console.log('Password too short');
+            toast.error('La contraseña debe tener al menos 8 caracteres.');
+            return;
+        }
+
+        if(validator.isAlpha(user.name, ['es-ES']) && validator.isAlpha(user.last_name, ['es-ES']) && user.name.length > 3 && user.last_name.length > 2){
+            console.log('Invalid name or last name');
+            toast.error('Nombre o apellido inválido.');
+            return;
+        }
+
         userService.createAdmin(localStorage.getItem('token'), user).then(response => {
             console.log(response.data);
             navigate('/admin/users');
