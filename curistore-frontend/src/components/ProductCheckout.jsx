@@ -13,7 +13,7 @@ const ProductCheckout = ({ id, title, price, quantity, totalPrice, thumbnail}) =
                 <span className="font-semibold">{title}</span>
                 <div className="flex items-center justify-between">
                     <span className="text-sm font-medium text-gray-600">Cantidad: {quantity}</span>
-                    <span className="font-semibold text-gray-600">Precio individual: {price}</span>
+                    <span className="text-sm font-medium text-gray-600">Precio individual: ${price}</span>
                 </div>
                 <p className="text-lg font-bold">${totalPrice}</p>
             </div>
