@@ -5,7 +5,7 @@ const UserInfo = ({user}) => {
     
     return (
         <div className=' py-3 w-full grid grid-cols-3 items-center justify-center place-items-center text-lg max-sm:text-sm'>
-            <p>{user.email}</p>
+            <p className=' text-ellipsis overflow-hidden whitespace-nowrap w-full'>{user.email}</p>
             <div className={`${color} text-lg font-bold text-teal-50 px-3 py-2 rounded-lg`}>
                 {user.wallet?.balance ? user.wallet.balance : 0}
             </div>

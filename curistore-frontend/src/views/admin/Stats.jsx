@@ -3,6 +3,7 @@ import CountCard from '../../components/CountCard'
 import { FaUsers, FaTags, FaBox, FaMoneyBill } from "react-icons/fa";
 import { BarChart } from '@mui/x-charts/BarChart';
 import statsService from '../../services/stats';
+import { toast } from 'react-toastify';
 
 const Stats = () => {
     const [stats, setStats] = useState({
@@ -29,18 +30,30 @@ const Stats = () => {
                     purchases: response.data.purchases,
                     earnings: response.data.earnings !== null ? response.data.earnings : 0
                 })
+            }).catch(error => {
+                console.log(error);
+                toast.error('Error al obtener las estadísticas');
             });
     
             statsService.getStatsByProducts(token).then(response => {
                 setProducts(response.data);
+            }).catch(error => {
+                console.log(error);
+                toast.error('Error al obtener las estadísticas');
             });
     
             statsService.getStatsByCategories(token).then(response => {
                 setCategories(response.data);
+            }).catch(error => {
+                console.log(error);
+                toast.error('Error al obtener las estadísticas');
             })
     
             statsService.getStatsByBrands(token).then(response => {
                 setBrands(response.data);
+            }).catch(error => {
+                console.log(error);
+                toast.error('Error al obtener las estadísticas');
             })
         }
     }, []);
