@@ -20,6 +20,9 @@ module.exports = {
         "secondary-darker": '#222831',
         "secondary-dark": '#31363F',
         
+      },
+      screens: {
+        'xs': '420px', // Definir un nuevo breakpoint para pantallas extra pequeñas
       }
     },
 

@@ -2,7 +2,7 @@ import React from 'react';
 
 const UserAddress = ({ address, id, selectedAddress, setSelectedAddress }) => {
     return (
-        <div className="flex items-center p-2 border-b border-gray-200">
+        <div className="flex items-center p-2 border-b border-gray-200 w-[100%]">
             <input
                 type="radio"
                 id={`address-${id}`}
@@ -12,7 +12,7 @@ const UserAddress = ({ address, id, selectedAddress, setSelectedAddress }) => {
                 onChange={() => setSelectedAddress(id)}
                 className="form-radio h-4 w-4 text-blue-600 transition duration-150 ease-in-out"
             />
-            <label htmlFor={`address-${id}`} className="ml-3 block text-sm leading-5 text-gray-700">
+            <label htmlFor={`address-${id}`} className="ml-3 bg-blue block text-sm leading-5 text-gray-700">
                 <p>{address.address}</p>
                 <p>{address.city}</p>
                 <p>{address.state}</p>
