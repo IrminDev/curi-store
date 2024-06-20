@@ -10,15 +10,15 @@ const Invoice = () => {
                     <InvoiceDocument />
                 </PDFViewer>
             </div>
-            <div className=' mt-10 w-full flex items-center justify-evenly flex-wrap'>
-                <PDFDownloadLink className=' max-sm:w-[80%] px-5 py-2 bg-teal-700 text-white rounded-lg' document={<InvoiceDocument />} fileName="invoice.pdf">
+            <div className=' mt-8 w-full flex items-center justify-evenly flex-wrap'>
+                <PDFDownloadLink className=' max-sm:w-[80%] px-5 py-2 bg-teal-700 text-white text-xl font-semibold rounded-3xl mb-8' document={<InvoiceDocument />} fileName="invoice.pdf">
                     {({ blob, url, loading, error }) => (
                         loading ? 'Generando recibo...' : 'Descargar recibo'
                     )}
                 </PDFDownloadLink>
                 <BlobProvider document={<InvoiceDocument />}>
                     {({ blob, url, loading, error }) => (
-                        <div className=' max-sm:mt-5 max-sm:w-[80%] px-5 py-2 bg-teal-700 text-white rounded-lg'>
+                        <div className=' max-sm:mt-5 max-sm:w-[80%] px-5 py-2 bg-teal-700 text-white text-xl font-semibold rounded-3xl mb-8'>
                             <a href={url} className=''>
                                 {loading ? 'Generando recibo...' : 'Imprimir recibo'}
                             </a>
