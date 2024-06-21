@@ -13,7 +13,7 @@ class AddressController extends Controller
         $user_id = $request->user_id;
 
         // Check if the user is the owner of the address
-        if(auth()->user()->id !== $user_id){
+        if(auth()->user()->id != $user_id){
             return response()->json(['message' => 'Unauthorized'], 401);
         }
 

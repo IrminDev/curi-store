@@ -39,5 +39,14 @@ const updateCart = async (id, token, data) => {
     return response;
 }
 
-export default { getCart, addToCart, removeFromCart, updateCart };
+const deleteUserCart = async (id, token) => {
+    const response = await axios.delete(`${baseUrl}/user/${id}`, {
+        headers: {
+        Authorization: `Bearer ${token}`,
+        },
+    })
+    return response;
+}
+
+export default { getCart, addToCart, removeFromCart, updateCart, deleteUserCart };
 

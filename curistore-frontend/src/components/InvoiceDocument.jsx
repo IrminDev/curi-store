@@ -1,6 +1,8 @@
 import React from 'react'
 import { Document, Page, Text, View, StyleSheet, Image } from '@react-pdf/renderer'
 import logo  from '../assets/logo.png'
+import { format } from 'date-fns'
+import address from '../services/address';
 
 const styles = StyleSheet.create({
     page: {fontSize: 11,paddingTop: 20,paddingLeft: 40,paddingRight: 40,lineHeight: 1.5,flexDirection: 'column' },
@@ -112,13 +114,13 @@ const TableRow = ({product}) => {
                 <Text >{product.title}</Text>   
             </View>
             <View style={styles.tbody}>
-                <Text>{product.price} </Text>   
+                <Text>${product.price}.00</Text>   
             </View>
             <View style={styles.tbody}>
                 <Text>{product.quantity}</Text>   
             </View>
             <View style={styles.tbody}>
-                <Text>{(product.price * product.quantity).toFixed(2)}</Text>   
+                <Text>${(product.price * product.quantity).toFixed(2)}</Text>   
             </View>
         </View>
     )
@@ -138,26 +140,34 @@ const Summary = ({total}) => {
             </View>
             <View style={styles.tbody}>
                 <Text>
-                    {total}
+                    ${total}
                 </Text>  
             </View>
         </View>
     )
 }
 
-const InvoiceDocument = () => {
+const InvoiceDocument = ({purchase}) => {
     return (
         <Document>
             <Page size="A4" style={styles.page}>
                 <InvoiceHeader />
-                <InvoiceInfo id={1} />
-                <UserAddress address={{address: 'Calle 123', city: 'Ciudad de México', state: 'CDMX', zip: '12345'}} date="2021-09-01" />
+                <InvoiceInfo id={purchase.id} />
+                <UserAddress address={{address: purchase.address.address, city: purchase.address.city, state: purchase.address.state, zip: purchase.address.zip}} date={
+                    format(
+                        new Date(purchase.created_at),
+                        'dd/MM/yyyy HH:mm'
+                    )
+                } />
                 <TableHeader />
-                <TableRow product={{title: 'Producto 1', price: 100, quantity: 2}} />
-                <TableRow product={{title: 'Producto 2', price: 200, quantity: 1}} />
-                <Summary total={400} />
+                {
+                    purchase.order.map((order) => (
+                        <TableRow key={order.id} product={{title: order.product.title, price: order.product.price, quantity: order.quantity}} />
+                    ))
+                }
+                <Summary total={purchase.total} />
             </Page>
-        </Document>   
+        </Document>
     )
 }
 

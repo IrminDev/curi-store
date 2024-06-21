@@ -59,7 +59,7 @@ const Stats = () => {
     }, []);
 
     return (
-        <div className=' flex flex-col justify-center items-center mt-20 bg-teal-100'>
+        <div className=' overflow-x-hidden flex flex-col justify-center items-center mt-20 bg-teal-100'>
             <div className=' h-auto flex flex-row flex-wrap items-center justify-evenly w-full mt-5'>
                 <CountCard number={stats.users} label={'Usuarios'} background={'bg-teal-800'}>
                     <FaUsers/>
@@ -81,10 +81,10 @@ const Stats = () => {
                 <div className=' flex flex-row items-center justify-center w-[80%]'>
                     <BarChart
                     series={[
-                        { data: products.map(product => product.total_earnings).splice(0, 10)},
+                        { data: products.map(product => product.total_earnings).splice(0, 5)},
                     ]}
                     height={350}
-                    xAxis={[{ data: products.map(product => product.title).splice(0, 10)
+                    xAxis={[{ data: products.map(product => product.title).splice(0, 5)
                     , scaleType: 'band' }]}
                     margin={{ top: 10, bottom: 30, left: 40, right: 10 }}
                     />
@@ -97,10 +97,10 @@ const Stats = () => {
                 <div className=' flex flex-row items-center justify-center w-[80%]'>
                     <BarChart
                     series={[
-                        { data: categories.map(category => category.total_earnings).splice(0, 10)},
+                        { data: categories.map(category => category.total_earnings).splice(0, 5)},
                     ]}
                     height={350}
-                    xAxis={[{ data: categories.map(category => category.category).splice(0, 10)     
+                    xAxis={[{ data: categories.map(category => category.category).splice(0, 5)     
                         , scaleType: 'band' }]}
                     margin={{ top: 10, bottom: 30, left: 40, right: 10 }}
                     />
@@ -113,10 +113,10 @@ const Stats = () => {
                 <div className=' flex flex-row items-center justify-center w-[80%]'>
                     <BarChart
                     series={[
-                        { data: brands.map(brand => brand.total_earnings).splice(0, 10)},
+                        { data: brands.map(brand => brand.total_earnings).splice(0, 5)},
                     ]}
                     height={350}
-                    xAxis={[{ data: brands.map(brand => brand.brand).splice(0, 10)     
+                    xAxis={[{ data: brands.map(brand => brand.brand).splice(0, 5)     
                     , scaleType: 'band' }]}
                     margin={{ top: 10, bottom: 30, left: 40, right: 10 }}
                     />

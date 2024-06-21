@@ -1,6 +1,7 @@
 // src/components/ProductCard.js
 import React, { useState } from 'react';
 import Counter from './Counter';
+import { Link } from 'react-router-dom';
 
 const ProductCard = ({ id, title, price, stock, quantity, thumbnail, onRemove }) => {
     const [totalPrice, setTotalPrice] = useState(price);
@@ -27,9 +28,9 @@ const ProductCard = ({ id, title, price, stock, quantity, thumbnail, onRemove })
                     <button className="grow px-4 py-2 rounded-md bg-red-600 text-white hover:bg-red-700" onClick={() => onRemove(id)}>
                         Eliminar
                     </button>
-                    <button className="grow px-4 py-2 rounded-md bg-teal-700 text-white hover:bg-teal-800">
+                    <Link to={`../checkout/${id}`} className="grow text-center px-4 py-2 rounded-md bg-teal-700 text-white hover:bg-teal-800">
                         Comprar ahora
-                    </button>
+                    </Link>
                 </div>
             </div>
             {/* Div para detalles de la compra (cantidad, precio y costo de envío) */}

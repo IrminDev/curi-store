@@ -40,7 +40,7 @@ const Index = () => {
             <div className=' w-[80%] flex items-center '>
                 <SearchBar handleChange={handleChange} />
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4 px-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4 px-5 mb-16">
                 {
                     products.filter((product) => {
                         if(search === '') {

@@ -62,7 +62,7 @@ const AdminHome = () => {
     }, [])
 
     return (
-        <div>
+        <div className=' overflow-x-hidden no-scrollbar'>
             <Header>
                 <HeaderLink url={'./'} text={'Inicio'}><FaHome/></HeaderLink>
                 <HeaderLink url={'./products'} text={'Productos'}><FaTags/></HeaderLink>
@@ -120,7 +120,7 @@ const UserHome = () => {
     }, [])
 
     return (
-        <div className=''>
+        <div className=' overflow-x-hidden no-scrollbar'>
             <Header>
                 <HeaderLink url={'./'} text={'Inicio'}><FaHome/></HeaderLink>
                 <HeaderLink url={'./cart'} text={'Carrito'}><FaShoppingCart/></HeaderLink>
@@ -135,7 +135,7 @@ const UserHome = () => {
                 <Route path="profile" element={<ProfileUser />} />
                 <Route path="profile/addressForm" element={<AddressForm />} />
                 <Route path="orders/invoice/:id" element={<Invoice />} />
-                <Route path="checkout" element={<Checkout />} />
+                <Route path="checkout/:product?" element={<Checkout />} />
                 <Route path="orders" element={<ShoppingHistory />} />
             </Routes>
         </div>

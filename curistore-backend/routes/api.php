@@ -36,18 +36,18 @@ Route::get('/products/category/{category_id}', [ProductController::class, 'produ
 Route::get('/orders/{purchase_id}', [OrderController::class, 'getOrdersByPurchaseId']);
 
 
-// Purchases routes
-Route::get('/purchases/{user_id}', [PurchaseController::class, 'getPurchasesByUserId']);
-
-Route::post('/purchase', [PurchaseController::class, 'storeMultipleOrders']);
-
-Route::get('/purchase/{id}', [PurchaseController::class, 'show']);
 
 // Protected routes
 Route::group([
     'middleware' => 'auth:api'
 ], function ($router) {
-
+    // Purchases routes
+    Route::get('/purchases/{user_id}', [PurchaseController::class, 'getPurchasesByUserId']);
+    
+    Route::post('/purchase', [PurchaseController::class, 'storeMultipleOrders']);
+    
+    Route::get('/purchase/{id}', [PurchaseController::class, 'show']);
+    
     Route::post('/product',  [ProductController::class, 'store'])->middleware('auth:api')->name('store');
 
     Route::post('/products', [ProductController::class, 'multipleStore'])->middleware('auth:api')->name('multipleStore');
@@ -74,6 +74,8 @@ Route::group([
     Route::delete('/cart/{id}', [CartController::class, 'destroy']);
 
     Route::put('/cart/{id}', [CartController::class, 'update']);
+
+    Route::delete('/cart/user/{id}', [CartController::class, 'destroyAll']);
 
     // Address routes
     Route::get('/addresses/{user_id}', [AddressController::class, 'addressesByUserId']);

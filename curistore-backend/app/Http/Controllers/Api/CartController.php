@@ -91,4 +91,20 @@ class CartController extends Controller{
             return response()->json(['message' => 'Product not found in cart']);
         }
     }
+
+    // Function that delete all products from user cart by user id, needs to be authenticated
+    public function destroyAll($id){
+        // Authenticate user
+        if(auth()->user()->id != $id){
+            return response()->json(['message' => 'Unauthorized'], 401);
+        };
+
+        $cart = Cart::where('user_id', $id)->get();
+
+        foreach($cart as $item){
+            $item->delete();
+        }
+
+        return response()->json(['message' => 'Cart cleared']);
+    }
 }

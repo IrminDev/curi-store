@@ -60,7 +60,7 @@ const SignUp = () => {
             return;
         }
 
-        if(validator.isAlpha(user.name, ['es-ES']) && validator.isAlpha(user.last_name, ['es-ES']) && user.name.length > 3 && user.last_name.length > 2){
+        if((!validator.isAlpha(user.name, ['es-ES']) || !validator.isAlpha(user.last_name, ['es-ES'])) && user.name.length > 3 && user.last_name.length > 2){
             console.log('Invalid name or last name');
             toast.error('Nombre y apellido deben contener solo letras.');
             return;
