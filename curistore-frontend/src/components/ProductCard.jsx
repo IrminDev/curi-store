@@ -1,12 +1,57 @@
 // src/components/ProductCard.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Counter from './Counter';
 import { Link } from 'react-router-dom';
+import cartService from '../services/cart';
 
-const ProductCard = ({ id, title, price, stock, quantity, thumbnail, onRemove }) => {
+const ProductCard = ({ id, title, price, stock, quantity, thumbnail, onRemove, onChangeQuantity }) => {
     const [totalPrice, setTotalPrice] = useState(price);
+    const [count, setCount] = useState(quantity);
+    const [disabled, setDisabled] = useState(false);
+
     const handleCountChange = (count) => {
         setTotalPrice(price * count);
+    };
+
+    useEffect(() => {
+        handleCountChange(count);
+    }, [count, handleCountChange]);
+
+
+    const increment = () => {
+        if (count < stock) {
+            setCount(count + 1);
+            onChangeQuantity(id, count + 1);
+            const token = localStorage.getItem('token');
+            const user = JSON.parse(localStorage.getItem('user'));
+    
+            setDisabled(true);
+            cartService.updateCart(user.id, token, {
+                product_id: id,
+                quantity: count + 1
+            }).then(response => {
+                console.log(response);
+                setDisabled(false);
+            });
+        }
+    };
+
+    const decrement = () => {
+        if (count > 1) {
+            setCount(count - 1);
+            onChangeQuantity(id, count - 1);
+            const token = localStorage.getItem('token');
+            const user = JSON.parse(localStorage.getItem('user'));
+    
+            setDisabled(true);
+            cartService.addToCart(user.id, token, {
+                product_id: id,
+                quantity: count + 1
+            }).then(response => {
+                console.log(response);
+                setDisabled(false);
+            });
+        }
     };
 
     return (
@@ -35,7 +80,7 @@ const ProductCard = ({ id, title, price, stock, quantity, thumbnail, onRemove })
             </div>
             {/* Div para detalles de la compra (cantidad, precio y costo de envío) */}
             <div className="w-full md:w-3/12 flex flex-col justify-between items-center space-y-2">
-                <Counter quantity={quantity} id={id} stock={stock} onCountChange={handleCountChange} />
+                <Counter count={count} onIncrement={increment} onDecrement={decrement} disabled={disabled} quantity={quantity} id={id} stock={stock}/>
                 <div className="flex justify-between w-full">
                     <span className="text-gray-500">Precio:</span>
                     <span className="font-bold text-gray-900">${totalPrice}</span>
