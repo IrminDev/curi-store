@@ -137,7 +137,7 @@ const ProductForm = () => {
     }
 
     return (
-        <div className=' pt-10 flex items-center justify-center bg-products bg-no-repeat bg-cover bg-center h-screen w-screen'>
+        <div className=' pt-20 md:pb-12 xs:pb-16 flex items-center justify-center bg-products bg-no-repeat bg-cover bg-center min-h-screen w-screen'>
             <div className=' h-auto px-10 py-12 w-[650px] border-solid border-2 rounded-lg border-teal-800 bg-transparent backdrop-blur-md mx-3'>
                 <form onSubmit={handleSubmit} className=' w-full text-center'>
                     <h1 className=' max-sm:text-2xl text-3xl text-white font-bold mb-5'>Agregar producto</h1>
