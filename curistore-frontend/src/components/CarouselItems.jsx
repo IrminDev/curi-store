@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react'
 import productService from '../services/product';
 import { Link } from 'react-router-dom';
 import cartService from '../services/cart';
+import { toast } from 'react-toastify';
 
 const CarouselItems = ({category}) => {
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -23,14 +24,14 @@ const CarouselItems = ({category}) => {
 
     const handleOnClick = (id) => {
         const token = localStorage.getItem('token');
-        const user = localStorage.getItem('user');
-        console.log(user);
+        const user = JSON.parse(localStorage.getItem('user'));
 
         cartService.addToCart(user.id, token, {
             product_id: id,
             quantity: 1
         }).then(response => {
-            // console.log(response);
+            toast.success("Producto agregado");
+            console.log(response)
         });
     }
 

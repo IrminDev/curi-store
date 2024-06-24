@@ -135,7 +135,7 @@ const Product = () => {
                 </div>
             </section>
 
-            <div className=' w-full'>
+            <div className=' w-full mb-10'>
                 <CarouselItems category={product.category?.id} />
             </div>
         </div>

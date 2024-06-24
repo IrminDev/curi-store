@@ -22,36 +22,36 @@ const ProductCard = ({ id, title, price, stock, quantity, thumbnail, onRemove, o
         if (count < stock) {
             setCount(count + 1);
             onChangeQuantity(id, count + 1);
-            const token = localStorage.getItem('token');
-            const user = JSON.parse(localStorage.getItem('user'));
-    
-            setDisabled(true);
-            cartService.updateCart(user.id, token, {
-                product_id: id,
-                quantity: count + 1
-            }).then(response => {
-                console.log(response);
-                setDisabled(false);
-            });
         }
+        const token = localStorage.getItem('token');
+        const user = JSON.parse(localStorage.getItem('user'));
+
+        setDisabled(true);
+        cartService.updateCart(user.id, token, {
+            product_id: id,
+            quantity: count + 1
+        }).then(response => {
+            console.log(response);
+            setDisabled(false);
+        });
     };
 
     const decrement = () => {
         if (count > 1) {
             setCount(count - 1);
             onChangeQuantity(id, count - 1);
-            const token = localStorage.getItem('token');
-            const user = JSON.parse(localStorage.getItem('user'));
-    
-            setDisabled(true);
-            cartService.addToCart(user.id, token, {
-                product_id: id,
-                quantity: count + 1
-            }).then(response => {
-                console.log(response);
-                setDisabled(false);
-            });
         }
+        const token = localStorage.getItem('token');
+        const user = JSON.parse(localStorage.getItem('user'));
+
+        setDisabled(true);
+        cartService.updateCart(user.id, token, {
+            product_id: id,
+            quantity: count - 1
+        }).then(response => {
+            console.log(response);
+            setDisabled(false);
+        });
     };
 
     return (
