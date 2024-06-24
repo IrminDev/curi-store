@@ -12,11 +12,6 @@ const Cart = () => {
     const divisionRef = useRef(null);
 
     useEffect(() => {
-        if (summaryRef.current && divisionRef.current && products.length > 0) {
-            divisionRef.current.style.height = `${summaryRef.current.offsetHeight + 30}px`;
-    }}, [products]);
-
-    useEffect(() => {
         const token = localStorage.getItem('token');
         const user = JSON.parse(localStorage.getItem('user'));
         cartService.getCart(user.id, token).then(response => {
@@ -36,6 +31,7 @@ const Cart = () => {
             toast.error('Error al intentar obtener el carrito.');
             console.error(error);
         });
+
     }, [])
 
     const removeProduct = (id) => {
@@ -52,11 +48,20 @@ const Cart = () => {
         });
     };
 
+    const onChangeQuantity = (id, quantity) => {
+        setProducts(products.map(product => {
+            if (product.id === id) {
+                product.quantity = quantity;
+            }
+            return product;
+        }));
+    }
+
     return (
-        <div className="pt-16 md:pt-20 flex flex-col md:flex-row justify-center w-full space-y-4 md:space-y-0 h-full">
+        <div className="pt-16 md:pt-20 max-md:mb-16 flex flex-col md:flex-row justify-center w-full space-y-4 md:space-y-0 h-full">
             {products.length > 0 ? (
                 <>
-                    <div className="md:w-4/5 flex flex-col justify-between flex-wrap w-full space-y-4">
+                    <div className="md:w-4/5 flex flex-coljustify-between flex-wrap w-full space-y-4">
                         {products.map(product => (
                         <ProductCard
                             key={product.id}
@@ -67,14 +72,15 @@ const Cart = () => {
                             stock={product.stock}
                             thumbnail={product.thumbnail}
                             onRemove={removeProduct}
+                            onChangeQuantity={onChangeQuantity}
                         />
                         ))}
                     <div className='max-md:w-full space-y-4' ref={divisionRef}></div>
                     </div>
-                    <div className="md:w-1/5 md:top-28 md:sticky md:self-start w-full fixed bottom-16" ref={summaryRef}>
-                        <SummaryCard quantity={products.length} price={
-                            products.reduce((acc, product) => acc + product.price * product.quantity, 0)
-                        } />
+                    <div className="md:w-1/5 md:top-28 max-md:block max-md:static md:sticky md:self-start w-full fixed bottom-16" ref={summaryRef}>
+                        <SummaryCard quantity={
+                            products.reduce((acc, product) => acc + product.quantity, 0)
+                        } price={products.reduce((acc, product) => acc + product.price * product.quantity, 0)} />
                     </div>
                 </>
             ) : (
