@@ -167,7 +167,7 @@ const Checkout = () => {
     }, [])
 
     return(
-        <div className="grid mt-24 sm:px-10 lg:grid-cols-2 lg:px-20 xl:px-32 pb-16 md:pb-0">
+        <div className="grid mt-24 sm:px-10 lg:grid-cols-2 lg:px-20 xl:px-32 pb-16 md:pb-0 max-sm:mt-10">
             <div className="px-4 pt-8">   
                 <p className="text-xl font-medium">Resumen del pedido</p>
                 <p className="text-gray-400">Revisa tus productos seleccionados. Y selecciona una dirección de envío.</p>

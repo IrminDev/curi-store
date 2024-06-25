@@ -67,7 +67,7 @@ const CarouselItems = ({category}) => {
                         </p>
                         <div className="mt-3 flex items-center justify-between">
                             <span className="text-gray-900 font-bold">
-                            {item.price}
+                            ${item.price}
                             </span>
                             <button
                             onClick={() => handleOnClick(item.id)}

@@ -66,9 +66,9 @@ const ProductCard = ({ id, title, price, stock, quantity, thumbnail, onRemove, o
             </div>
             {/* Div para información del producto y opciones */}
             <div className="w-full md:w-6/12 flex flex-col justify-between items-center p-2 space-y-4 md:space-y-0">
-                <h3 className="text-sm md:text-lg font-medium text-gray-900 text-center md:text-left">
+                <Link to={`../product/${id}`} className="text-sm md:text-2xl font-semiblod mb-4 text-gray-900 w-full md:text-left">
                     {title}
-                </h3>
+                </Link>
                 <div className="flex flex-wrap justify-around gap-1 w-full">
                     <button className="grow px-4 py-2 rounded-md bg-red-600 text-white hover:bg-red-700" onClick={() => onRemove(id)}>
                         Eliminar

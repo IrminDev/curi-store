@@ -61,7 +61,7 @@ const Product = () => {
     }
 
     return (
-        <div className=' mt-20'>
+        <div className=' mt-20 max-sm:mt-10'>
             <section className="text-gray-600 body-font overflow-hidden w-full">
                 <div className="container px-5 py-12 mx-auto">
                     <div className="lg:w-4/5 mx-auto flex flex-wrap">
