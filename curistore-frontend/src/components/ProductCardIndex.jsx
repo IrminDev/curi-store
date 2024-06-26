@@ -18,7 +18,8 @@ const ProductCardIndex = ({product, handleOnClick}) => {
                     {/* Aquí está la etiqueta button */}
                     <button 
                     onClick={() => handleOnClick(product.id)}
-                    className="px-3 py-1 bg-green-600 text-white rounded-md hover:bg-green-700">
+                    disabled={product.stock > 0 ? false : true}
+                    className={`px-3 ${product.stock > 0 ? 'bg-green-600 hover:bg-green-700' : 'bg-red-600'} py-1 text-white rounded-md`}>
                         Agregar
                     </button>
                 </div>

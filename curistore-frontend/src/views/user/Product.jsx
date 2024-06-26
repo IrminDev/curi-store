@@ -102,6 +102,7 @@ const Product = () => {
                             <span className="ml-auto text-gray-900">{product.stock}</span>
                         </div>
             
+                        { product.stock > 0 ?
                         <div className="flex border-t border-b mb-6 border-gray-200 py-2">
                             <span className="text-gray-500">Cantidad</span>
                             <input
@@ -113,13 +114,18 @@ const Product = () => {
                             className="ml-auto text-gray-900 border border-gray-300 rounded-md w-20 text-center"
                             />
                         </div>
+                        :
+                        <div className=' border-t border-b mb-6 text-center'>
+                            Producto agotado
+                        </div>
+                        }
                         <div className="flex">
                             <span className="title-font font-medium text-2xl text-gray-900">
                             ${product.price}
                             </span>
                             <button
                             onClick={() => handleOnClick(product.id)}
-                            enabled={product.stock > 0 ? 'true' : 'false'}
+                            disabled={product.stock > 0 ? false : true}
                             className="flex ml-auto text-white bg-teal-700 border-0 py-2 px-6 focus:outline-none hover:bg-teal-500 rounded">
                                 Añadir al Carrito
                             </button>

@@ -141,13 +141,15 @@ const Checkout = () => {
             cartService.getCart(user.id, token).then(response => {
                 setProducts([]);
                 response.data.map(prod => {
-                    setProducts(prevProducts => [...prevProducts, {
-                        id: prod.product_id,
-                        title: prod.product.title,
-                        price: prod.product.price,
-                        quantity: prod.quantity,
-                        thumbnail: prod.product.thumbnail
-                    }]);
+                    if(prod.product.stock > 0){
+                        setProducts(prevProducts => [...prevProducts, {
+                            id: prod.product_id,
+                            title: prod.product.title,
+                            price: prod.product.price,
+                            quantity: prod.quantity,
+                            thumbnail: prod.product.thumbnail
+                        }]);
+                    }
                 })
             }).catch(error => {
                 console.log(error);

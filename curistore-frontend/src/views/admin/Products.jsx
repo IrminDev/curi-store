@@ -23,7 +23,7 @@ const Products = () => {
     }, []);
     
     return (
-        <div className=' flex flex-col justify-center items-center mt-20 bg-teal-100'>
+        <div className=' flex flex-col justify-center items-center max-sm:mt-12 mt-20 bg-teal-100'>
             <div className=' h-auto flex flex-row flex-wrap items-center justify-evenly w-full mt-5 mb-5'>
                 <CountCard number={stats.products} label={'Productos'} background={'bg-teal-800'}>
                     <FaBox/>

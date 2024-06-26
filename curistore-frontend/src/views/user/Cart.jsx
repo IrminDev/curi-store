@@ -26,12 +26,18 @@ const Cart = () => {
                     thumbnail: item.product.thumbnail,
                 };
                 setProducts(prevProducts => [...prevProducts, product]);
+                if(product.stock == 0) {
+                    removeProduct(product.id);
+                    toast.info(`Producto ${product.title} sin stock. Eliminado del carrito.`);
+                } else if(product.stock < product.quantity) {
+                    updateQuantity(product.id, product.stock);
+                    toast.info(`Cantidad de producto ${product.title} ajustada a ${product.stock}.`);
+                }
             });
         }).catch(error => {
             toast.error('Error al intentar obtener el carrito.');
             console.error(error);
-        });
-
+        })
     }, [])
 
     const removeProduct = (id) => {
@@ -55,6 +61,24 @@ const Cart = () => {
             }
             return product;
         }));
+    }
+
+    const updateQuantity = (id, quantity) => {
+        const token = localStorage.getItem('token');
+        const user = JSON.parse(localStorage.getItem('user'));
+
+        setProducts(products.map(product => {
+            if (product.id === id) {
+                product.quantity = quantity;
+            }
+            return product;
+        }));
+        cartService.updateCart(user.id, token, {
+            product_id: id,
+            quantity: quantity
+        }).then(response => {
+            console.log(response);
+        });
     }
 
     return (

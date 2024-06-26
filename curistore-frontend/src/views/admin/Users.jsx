@@ -26,7 +26,7 @@ const Users = () => {
     }, []);
 
     return (
-        <div className=' flex flex-col justify-center items-center mt-20 bg-teal-100'>
+        <div className=' flex flex-col justify-center  max-sm:mt-12 items-center mt-20 bg-teal-100'>
             <div className=' h-auto flex flex-row flex-wrap items-center justify-evenly w-full my-5'>
                 <CountCard number={counter.users} label={'Usuarios'} background={'bg-teal-800'}>
                     <FaBox/>

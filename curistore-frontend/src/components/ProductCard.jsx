@@ -6,7 +6,7 @@ import cartService from '../services/cart';
 
 const ProductCard = ({ id, title, price, stock, quantity, thumbnail, onRemove, onChangeQuantity }) => {
     const [totalPrice, setTotalPrice] = useState(price);
-    const [count, setCount] = useState(quantity);
+    const [count, setCount] = useState(stock > quantity ? quantity : stock);
     const [disabled, setDisabled] = useState(false);
 
     const handleCountChange = (count) => {
@@ -73,9 +73,11 @@ const ProductCard = ({ id, title, price, stock, quantity, thumbnail, onRemove, o
                     <button className="grow px-4 py-2 rounded-md bg-red-600 text-white hover:bg-red-700" onClick={() => onRemove(id)}>
                         Eliminar
                     </button>
+                    { stock > 0 ?
                     <Link to={`../checkout/${id}`} className="grow text-center px-4 py-2 rounded-md bg-teal-700 text-white hover:bg-teal-800">
                         Comprar ahora
-                    </Link>
+                    </Link> : <></>
+                    }
                 </div>
             </div>
             {/* Div para detalles de la compra (cantidad, precio y costo de envío) */}

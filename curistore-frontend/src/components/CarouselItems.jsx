@@ -71,7 +71,8 @@ const CarouselItems = ({category}) => {
                             </span>
                             <button
                             onClick={() => handleOnClick(item.id)}
-                            className="px-3 py-1 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:bg-green-800 text-sm">
+                            disabled={item.stock > 0 ? false : true}
+                            className={`px-3 py-1 ${item.stock > 0 ? 'bg-green-600 hover:bg-green-700' : 'bg-red-600'} text-white rounded-md focus:outline-none text-sm`}>
                                 Agregar
                             </button>
                         </div>
