@@ -1,0 +1,56 @@
+services:
+  db:
+    image: mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: curistore
+      MYSQL_USER: curistore
+      MYSQL_PASSWORD: curistore
+    ports:
+      - 3306:3306
+    container_name: curistore-db
+    volumes:
+      - db-data:/var/lib/mysql/
+
+  curistore-frontend:
+    build: ./curistore-frontend
+    command: npm start
+    ports:
+      - 3000:3000
+    volumes:
+      - ./curistore-frontend:/usr/src/app
+      - node_modules:/usr/src/app/node_modules
+    container_name: curistore-frontend
+
+  curistore-backend:
+    build: ./curistore-backend
+    command: php artisan serve --host=0.0.0.0 --port=8000
+    environment:
+      - APP_NAME=Laravel
+      - APP_ENV=local
+      - APP_KEY=base64:vGPNKCsSYXBF100Zoj4gxAAW6b7ZDxbxt5F4OAcED3Q=
+      - APP_DEBUG=true
+      - APP_TIMEZONE=UTC
+      - BCRYPT_ROUNDS=12
+      - JWT_SECRET=QPkrLGU9LBzmiqESnPoHwViNIxuofYlmeDMn4yTKIgxgyJ0rccJdOsq3MbqXtoPR
+      - JWT_ALGO=HS256
+      - DB_CONNECTION=mysql
+      - DB_HOST=db
+      - DB_PORT=3306
+      - DB_DATABASE=curistore
+      - DB_USERNAME=curistore
+      - DB_PASSWORD=curistore
+    ports:
+      - 8000:8000
+    volumes:
+      - ./curistore-backend:/usr/src/app
+      - vendor:/usr/src/app/vendor
+    depends_on:
+      - db
+    container_name: curistore-backend
+
+volumes:
+  node_modules:
+  vendor:
+  db-data:

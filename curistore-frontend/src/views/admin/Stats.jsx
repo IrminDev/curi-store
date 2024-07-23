@@ -37,6 +37,8 @@ const Stats = () => {
     
             statsService.getStatsByProducts(token).then(response => {
                 setProducts(response.data);
+
+                console.log(response.data);
             }).catch(error => {
                 console.log(error);
                 toast.error('Error al obtener las estadísticas');
@@ -59,7 +61,7 @@ const Stats = () => {
     }, []);
 
     return (
-        <div className=' overflow-x-hidden flex flex-col justify-center items-center mt-20 bg-teal-100'>
+        <div className=' overflow-x-hidden  max-sm:mt-12 flex flex-col justify-center items-center mt-20 bg-teal-100'>
             <div className=' h-auto flex flex-row flex-wrap items-center justify-evenly w-full mt-5'>
                 <CountCard number={stats.users} label={'Usuarios'} background={'bg-teal-800'}>
                     <FaUsers/>

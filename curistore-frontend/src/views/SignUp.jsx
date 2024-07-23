@@ -77,9 +77,11 @@ const SignUp = () => {
                 }
             }).catch(error => {
                 console.log(error);
+                toast.error('Error al intentar registrarse.');
             })
         } catch (error) {
             console.log(error);
+            toast.error('Error al intentar registrarse.');
         }
     }
 

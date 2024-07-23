@@ -61,7 +61,7 @@ const Product = () => {
     }
 
     return (
-        <div className=' mt-20'>
+        <div className=' mt-20 max-sm:mt-10'>
             <section className="text-gray-600 body-font overflow-hidden w-full">
                 <div className="container px-5 py-12 mx-auto">
                     <div className="lg:w-4/5 mx-auto flex flex-wrap">
@@ -102,6 +102,7 @@ const Product = () => {
                             <span className="ml-auto text-gray-900">{product.stock}</span>
                         </div>
             
+                        { product.stock > 0 ?
                         <div className="flex border-t border-b mb-6 border-gray-200 py-2">
                             <span className="text-gray-500">Cantidad</span>
                             <input
@@ -113,13 +114,18 @@ const Product = () => {
                             className="ml-auto text-gray-900 border border-gray-300 rounded-md w-20 text-center"
                             />
                         </div>
+                        :
+                        <div className=' border-t border-b mb-6 text-center'>
+                            Producto agotado
+                        </div>
+                        }
                         <div className="flex">
                             <span className="title-font font-medium text-2xl text-gray-900">
                             ${product.price}
                             </span>
                             <button
                             onClick={() => handleOnClick(product.id)}
-                            enabled={product.stock > 0 ? 'true' : 'false'}
+                            disabled={product.stock > 0 ? false : true}
                             className="flex ml-auto text-white bg-teal-700 border-0 py-2 px-6 focus:outline-none hover:bg-teal-500 rounded">
                                 Añadir al Carrito
                             </button>
@@ -135,7 +141,7 @@ const Product = () => {
                 </div>
             </section>
 
-            <div className=' w-full'>
+            <div className=' w-full mb-10'>
                 <CarouselItems category={product.category?.id} />
             </div>
         </div>

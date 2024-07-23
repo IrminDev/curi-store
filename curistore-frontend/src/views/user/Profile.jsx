@@ -38,7 +38,7 @@ const Profile = () => {
                 <div className=' text-lg text-teal-950 font-medium mb-5'>
                     <span className=' text-2xl font-bold'>Nombre:</span> {`${user.name} ${user.last_name}`}
                 </div>
-                <div className=' text-lg text-teal-950 font-medium mb-5'>
+                <div className=' text-ellipsis overflow-hidden whitespace-nowrap text-lg text-teal-950 font-medium mb-5'>
                     <span className=' text-2xl font-bold'>Correo:</span> {user.email}
                 </div>
                 <div className=' text-lg text-teal-950 mb-5 font-medium'>

@@ -141,13 +141,15 @@ const Checkout = () => {
             cartService.getCart(user.id, token).then(response => {
                 setProducts([]);
                 response.data.map(prod => {
-                    setProducts(prevProducts => [...prevProducts, {
-                        id: prod.product_id,
-                        title: prod.product.title,
-                        price: prod.product.price,
-                        quantity: prod.quantity,
-                        thumbnail: prod.product.thumbnail
-                    }]);
+                    if(prod.product.stock > 0){
+                        setProducts(prevProducts => [...prevProducts, {
+                            id: prod.product_id,
+                            title: prod.product.title,
+                            price: prod.product.price,
+                            quantity: prod.quantity,
+                            thumbnail: prod.product.thumbnail
+                        }]);
+                    }
                 })
             }).catch(error => {
                 console.log(error);
@@ -167,7 +169,7 @@ const Checkout = () => {
     }, [])
 
     return(
-        <div className="grid mt-24 sm:px-10 lg:grid-cols-2 lg:px-20 xl:px-32 pb-16 md:pb-0">
+        <div className="grid mt-24 sm:px-10 lg:grid-cols-2 lg:px-20 xl:px-32 pb-16 md:pb-0 max-sm:mt-10">
             <div className="px-4 pt-8">   
                 <p className="text-xl font-medium">Resumen del pedido</p>
                 <p className="text-gray-400">Revisa tus productos seleccionados. Y selecciona una dirección de envío.</p>

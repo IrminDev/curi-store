@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react'
 import productService from '../services/product';
 import { Link } from 'react-router-dom';
 import cartService from '../services/cart';
+import { toast } from 'react-toastify';
 
 const CarouselItems = ({category}) => {
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -23,14 +24,14 @@ const CarouselItems = ({category}) => {
 
     const handleOnClick = (id) => {
         const token = localStorage.getItem('token');
-        const user = localStorage.getItem('user');
-        console.log(user);
+        const user = JSON.parse(localStorage.getItem('user'));
 
         cartService.addToCart(user.id, token, {
             product_id: id,
             quantity: 1
         }).then(response => {
-            // console.log(response);
+            toast.success("Producto agregado");
+            console.log(response)
         });
     }
 
@@ -66,11 +67,12 @@ const CarouselItems = ({category}) => {
                         </p>
                         <div className="mt-3 flex items-center justify-between">
                             <span className="text-gray-900 font-bold">
-                            {item.price}
+                            ${item.price}
                             </span>
                             <button
                             onClick={() => handleOnClick(item.id)}
-                            className="px-3 py-1 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:bg-green-800 text-sm">
+                            disabled={item.stock > 0 ? false : true}
+                            className={`px-3 py-1 ${item.stock > 0 ? 'bg-green-600 hover:bg-green-700' : 'bg-red-600'} text-white rounded-md focus:outline-none text-sm`}>
                                 Agregar
                             </button>
                         </div>

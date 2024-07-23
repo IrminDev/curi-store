@@ -56,7 +56,7 @@ const ProductForm = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        if(!validator.isURL(product.thumbnail)){
+        if(!isImage(product.thumbnail)){
             console.log('Invalid thumbnail');
             toast.error('URL de la miniatura inválida.');
             return;
@@ -92,6 +92,12 @@ const ProductForm = () => {
             return;
         }
 
+        if(product.title.length < 5){
+            console.log('Invalid title');
+            toast.error('Título inválido.');
+            return;
+        }
+
         setProduct({
             ...product,
             title: validator.escape(product.title),
@@ -117,7 +123,20 @@ const ProductForm = () => {
 
     const handleAddImageChange = (event) => {
         event.preventDefault();
+        // Check if the URL is a valid image
+        if(!isImage(event.target.value)){
+            console.log('Invalid image');
+            toast.error('URL de la imagen inválida.');
+            return;
+        }
+
         setImage(event.target.value);
+    }
+
+    // Function that checks if the URL is a valid image
+    const isImage = (url) => {
+        const regex = /\.(gif|jpe?g|tiff?|png|webp|bmp)$/i;
+        return regex.test(url);
     }
 
     const handleAddImage = (event) => {
@@ -137,7 +156,7 @@ const ProductForm = () => {
     }
 
     return (
-        <div className=' pt-10 flex items-center justify-center bg-products bg-no-repeat bg-cover bg-center h-screen w-screen'>
+        <div className=' pt-20 md:pb-12 xs:pb-16 flex items-center justify-center bg-products bg-no-repeat bg-cover bg-center min-h-screen w-screen'>
             <div className=' h-auto px-10 py-12 w-[650px] border-solid border-2 rounded-lg border-teal-800 bg-transparent backdrop-blur-md mx-3'>
                 <form onSubmit={handleSubmit} className=' w-full text-center'>
                     <h1 className=' max-sm:text-2xl text-3xl text-white font-bold mb-5'>Agregar producto</h1>

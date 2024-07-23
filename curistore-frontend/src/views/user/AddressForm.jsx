@@ -50,15 +50,11 @@ const AddressForm = () => {
             return;
         }
 
-        setAddress({
+        addressService.createAddress({
             address: validator.escape(address.address),
             city: validator.escape(address.city),
             state: validator.escape(address.state),
-            zip: validator.escape(address.zip)
-        })
-
-        addressService.createAddress({
-            ...address,
+            zip: address.zip,
             user_id: user.id
         }, token).then(response => {
             toast.success('Dirección agregada con éxito');

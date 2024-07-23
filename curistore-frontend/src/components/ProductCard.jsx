@@ -6,7 +6,7 @@ import cartService from '../services/cart';
 
 const ProductCard = ({ id, title, price, stock, quantity, thumbnail, onRemove, onChangeQuantity }) => {
     const [totalPrice, setTotalPrice] = useState(price);
-    const [count, setCount] = useState(quantity);
+    const [count, setCount] = useState(stock > quantity ? quantity : stock);
     const [disabled, setDisabled] = useState(false);
 
     const handleCountChange = (count) => {
@@ -22,36 +22,36 @@ const ProductCard = ({ id, title, price, stock, quantity, thumbnail, onRemove, o
         if (count < stock) {
             setCount(count + 1);
             onChangeQuantity(id, count + 1);
-            const token = localStorage.getItem('token');
-            const user = JSON.parse(localStorage.getItem('user'));
-    
-            setDisabled(true);
-            cartService.updateCart(user.id, token, {
-                product_id: id,
-                quantity: count + 1
-            }).then(response => {
-                console.log(response);
-                setDisabled(false);
-            });
         }
+        const token = localStorage.getItem('token');
+        const user = JSON.parse(localStorage.getItem('user'));
+
+        setDisabled(true);
+        cartService.updateCart(user.id, token, {
+            product_id: id,
+            quantity: count + 1
+        }).then(response => {
+            console.log(response);
+            setDisabled(false);
+        });
     };
 
     const decrement = () => {
         if (count > 1) {
             setCount(count - 1);
             onChangeQuantity(id, count - 1);
-            const token = localStorage.getItem('token');
-            const user = JSON.parse(localStorage.getItem('user'));
-    
-            setDisabled(true);
-            cartService.addToCart(user.id, token, {
-                product_id: id,
-                quantity: count + 1
-            }).then(response => {
-                console.log(response);
-                setDisabled(false);
-            });
         }
+        const token = localStorage.getItem('token');
+        const user = JSON.parse(localStorage.getItem('user'));
+
+        setDisabled(true);
+        cartService.updateCart(user.id, token, {
+            product_id: id,
+            quantity: count - 1
+        }).then(response => {
+            console.log(response);
+            setDisabled(false);
+        });
     };
 
     return (
@@ -66,16 +66,18 @@ const ProductCard = ({ id, title, price, stock, quantity, thumbnail, onRemove, o
             </div>
             {/* Div para información del producto y opciones */}
             <div className="w-full md:w-6/12 flex flex-col justify-between items-center p-2 space-y-4 md:space-y-0">
-                <h3 className="text-sm md:text-lg font-medium text-gray-900 text-center md:text-left">
+                <Link to={`../product/${id}`} className="text-sm md:text-2xl font-semiblod mb-4 text-gray-900 w-full md:text-left">
                     {title}
-                </h3>
+                </Link>
                 <div className="flex flex-wrap justify-around gap-1 w-full">
                     <button className="grow px-4 py-2 rounded-md bg-red-600 text-white hover:bg-red-700" onClick={() => onRemove(id)}>
                         Eliminar
                     </button>
+                    { stock > 0 ?
                     <Link to={`../checkout/${id}`} className="grow text-center px-4 py-2 rounded-md bg-teal-700 text-white hover:bg-teal-800">
                         Comprar ahora
-                    </Link>
+                    </Link> : <></>
+                    }
                 </div>
             </div>
             {/* Div para detalles de la compra (cantidad, precio y costo de envío) */}
